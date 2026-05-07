@@ -1,1037 +1,1349 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>PORTOEX — Conferência TECADI | SKF</title>
-<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-<style>
-:root {
-  --orange:      #E8540A;
-  --orange-dk:   #B83F00;
-  --orange-lt:   #FFF0E8;
-  --navy:        #0D1F3C;
-  --navy-lt:     #1A2F55;
-  --white:       #FFFFFF;
-  --gray-bg:     #F2F4F8;
-  --gray-border: #CBD5E0;
-  --green:       #16A34A;
-  --green-lt:    #F0FDF4;
-  --red:         #DC2626;
-  --red-lt:      #FEF2F2;
-  --text:        #1E293B;
-  --text-lt:     #64748B;
-  --radius:      12px;
-  --shadow:      0 2px 10px rgba(0,0,0,.10);
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1A3A6E">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="PORTOEX Conferência">
+  <title>PORTOEX · Conferência de Volumes</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;-webkit-tap-highlight-color:transparent;}
+    :root{
+      --or:#E8611A;--or-d:#c0500f;--or-l:#fdf0e8;--or-m:#f4a97a;
+      --bl:#1A3A6E;--bl2:#254d91;--bl-l:#e8edf8;--bl-m:#b5c4e0;
+      --gr:#1a7a3e;--gr-l:#e8f5ee;--gr-m:#6ee7b7;
+      --re:#c0392b;--re-l:#fdecea;
+      --am:#a05c00;--am-l:#fff8e1;--am-m:#fcd34d;
+      --bg:#fff;--bg2:#f7f7f7;--bd:#e8e8e8;
+      --t1:#111;--t2:#555;--t3:#aaa;
+      --r:12px;--r-sm:8px;
+    }
+    html,body{height:100%;background:#f0f2f5;}
+    .app{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;}
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    .hdr{background:var(--bl);padding:11px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+    .hdr-title{color:white;font-size:15px;font-weight:700;letter-spacing:1.5px;line-height:1;}
+    .hdr-title span{color:var(--or);}
+    .hdr-sub{font-size:9px;color:rgba(255,255,255,.45);margin-top:2px;letter-spacing:.8px;text-transform:uppercase;}
+    .hdr-actions{margin-left:auto;display:flex;gap:5px;align-items:center;}
+    .btn-hdr{background:rgba(255,255,255,.14);border:none;color:white;border-radius:7px;padding:6px 11px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500;display:flex;align-items:center;gap:4px;white-space:nowrap;}
+    .btn-hdr:hover{background:rgba(255,255,255,.24);}
+    .btn-hdr.or{background:var(--or);}
 
-html, body { height: 100%; }
+    .global-bar{background:#0d1f3c;padding:10px 14px;display:none;flex-shrink:0;}
+    .global-bar.show{display:block;}
+    .gb-title{font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+    .gb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+    .gb-item{background:rgba(255,255,255,.07);border-radius:7px;padding:7px 5px;text-align:center;}
+    .gb-val{font-size:16px;font-weight:700;color:white;line-height:1;}
+    .gb-val.or{color:var(--or);}
+    .gb-val.gr{color:#4ade80;}
+    .gb-key{font-size:9px;color:rgba(255,255,255,.4);margin-top:2px;text-transform:uppercase;letter-spacing:.3px;}
 
-body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: var(--gray-bg);
-  color: var(--text);
-  min-height: 100vh;
-  overscroll-behavior: none;
-}
+    .body{padding:14px;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 
-/* ══ HEADER ══ */
-header {
-  background: var(--navy);
-  display: flex;
-  align-items: center;
-  padding: 0;
-  position: sticky; top: 0; z-index: 200;
-  box-shadow: 0 3px 14px rgba(0,0,0,.4);
-  min-height: 60px;
-}
-.hdr-brand {
-  background: var(--orange);
-  display: flex; align-items: center; gap: 8px;
-  padding: 0 20px 0 14px;
-  font-size: 1.3rem; font-weight: 900; letter-spacing: 2px; color: #fff;
-  height: 100%; align-self: stretch;
-  clip-path: polygon(0 0,100% 0,88% 100%,0 100%);
-  padding-right: 32px;
-  white-space: nowrap;
-}
-.hdr-brand svg { width: 28px; height: 28px; flex-shrink: 0; }
-.hdr-mid {
-  display: flex; flex-direction: column; padding: 6px 12px; gap: 1px; flex: 1; min-width: 0;
-}
-.hdr-client { font-size: .9rem; font-weight: 700; color: var(--orange); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hdr-sub    { font-size: .65rem; color: #94A3B8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hdr-right  { display: flex; align-items: center; gap: 8px; padding: 0 12px; flex-shrink: 0; }
-.counter-box {
-  text-align: center;
-  background: var(--navy-lt);
-  border: 2px solid var(--orange);
-  border-radius: 8px;
-  padding: 4px 12px;
-  line-height: 1;
-}
-.counter-box .cl { font-size: .58rem; color: #94A3B8; text-transform: uppercase; letter-spacing: .8px; }
-.counter-box .cv { font-size: 1.6rem; font-weight: 900; color: var(--orange); }
+    .step-bar{display:flex;gap:4px;margin-bottom:14px;}
+    .step{flex:1;height:5px;border-radius:3px;background:var(--bd);transition:background .3s;}
+    .step.done{background:var(--gr);}
+    .step.active{background:var(--or);}
 
-/* ══ MAIN LAYOUT ══ */
-.page {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 16px;
-  padding: 16px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-@media (max-width: 900px) {
-  .page { grid-template-columns: 1fr; padding: 10px; gap: 10px; }
-}
+    .card{border-radius:var(--r);padding:12px 14px;margin-bottom:12px;border:0.5px solid;}
+    .card.blue{background:var(--bl-l);border-color:var(--bl-m);}
+    .card.orange{background:var(--or-l);border-color:var(--or-m);}
+    .card.green{background:var(--gr-l);border-color:var(--gr-m);}
+    .card.amber{background:var(--am-l);border-color:var(--am-m);}
+    .card.dark{background:#0d1f3c;border-color:#1a3a6e;}
+    .card-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;display:flex;align-items:center;gap:7px;}
+    .card-title.blue{color:var(--bl);}
+    .card-title.orange{color:var(--or-d);}
+    .card-title.green{color:var(--gr);}
+    .card-title.amber{color:var(--am);}
+    .card-title.white{color:white;}
+    .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;}
+    .badge-bl{background:var(--bl);color:white;}
+    .badge-or{background:var(--or);color:white;}
+    .badge-gr{background:var(--gr);color:white;}
+    .badge-am{background:var(--am);color:white;}
+    .badge-gs{background:#0f9d58;color:white;}
 
-/* ══ CARD ══ */
-.card {
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-.card-hdr {
-  background: var(--navy);
-  color: var(--white);
-  padding: 10px 16px;
-  font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .8px;
-  display: flex; align-items: center; gap: 8px;
-}
-.card-body { padding: 16px; }
+    /* IMPORT TABS */
+    .import-tabs{display:flex;gap:0;margin-bottom:14px;border:1px solid var(--bd);border-radius:var(--r-sm);overflow:hidden;}
+    .import-tab{flex:1;padding:10px 8px;border:none;background:var(--bg2);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;border-right:1px solid var(--bd);transition:all .15s;}
+    .import-tab:last-child{border-right:none;}
+    .import-tab.active{background:var(--bl);color:white;}
+    .import-tab i{font-size:16px;}
 
-/* ══ CAMERA AREA ══ */
-.cam-toggle-row {
-  display: flex; gap: 8px; margin-bottom: 12px;
-}
-.cam-toggle-btn {
-  flex: 1; padding: 12px 8px; border: 2px solid var(--gray-border);
-  background: var(--white); border-radius: 10px; cursor: pointer;
-  font-size: .85rem; font-weight: 700; color: var(--text-lt);
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  transition: all .2s;
-}
-.cam-toggle-btn.active {
-  border-color: var(--orange); background: var(--orange-lt); color: var(--orange);
-}
+    /* FORMAT PILLS */
+    .format-row{display:flex;gap:8px;margin-bottom:12px;}
+    .fmt-pill{flex:1;border:1.5px solid var(--bd);border-radius:var(--r-sm);padding:9px 8px;cursor:pointer;text-align:center;font-size:12px;font-weight:700;color:var(--t2);background:var(--bg);transition:all .15px;font-family:inherit;}
+    .fmt-pill:hover{border-color:var(--or);}
+    .fmt-pill.active{background:var(--or);color:white;border-color:var(--or-d);}
+    .fmt-pill i{display:block;font-size:20px;margin-bottom:3px;}
 
-#cam-reader-wrap {
-  display: none;
-  position: relative; width: 100%; overflow: hidden;
-  border-radius: 10px; background: #000;
-  border: 2px solid var(--orange);
-  margin-bottom: 12px;
-}
-#cam-reader-wrap.visible { display: block; }
-#cam-reader { width: 100%; }
+    .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--t2);margin-bottom:6px;display:block;}
+    .field{margin-bottom:11px;}
+    .inp-wrap{position:relative;}
+    .inp{width:100%;padding:12px 44px 12px 13px;font-size:15px;font-weight:600;border:1.5px solid var(--bd);border-radius:var(--r-sm);background:var(--bg);color:var(--t1);outline:none;transition:border-color .15s;font-family:inherit;}
+    .inp:focus{border-color:var(--or);box-shadow:0 0 0 3px rgba(232,97,26,.1);}
+    .inp.blue-f:focus{border-color:var(--bl);box-shadow:0 0 0 3px rgba(26,58,110,.1);}
+    .inp.url-inp{font-size:12px;font-weight:400;letter-spacing:0;padding-right:44px;}
+    .inp-ic{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:19px;pointer-events:none;}
+    .inp-file{width:100%;padding:13px 14px;font-size:14px;border:2px dashed var(--bd);border-radius:var(--r-sm);background:var(--bg2);color:var(--t2);cursor:pointer;font-family:inherit;}
+    .inp-file:hover{border-color:var(--or);background:var(--or-l);}
 
-/* overlay crosshair */
-.cam-overlay {
-  position: absolute; inset: 0; pointer-events: none;
-  display: flex; align-items: center; justify-content: center;
-}
-.cam-frame {
-  width: 65%; max-width: 240px; aspect-ratio: 1.6;
-  border: 3px solid var(--orange);
-  border-radius: 8px;
-  box-shadow: 0 0 0 2000px rgba(0,0,0,.45);
-}
-.cam-hint-text {
-  position: absolute; bottom: 10px; left: 0; right: 0;
-  text-align: center; color: #fff; font-size: .75rem;
-  text-shadow: 0 1px 3px rgba(0,0,0,.8);
-}
+    .btn{width:100%;border:none;border-radius:var(--r-sm);padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .15s;margin-bottom:8px;}
+    .btn:active{transform:scale(.99);}
+    .btn-or{background:var(--or);color:white;}
+    .btn-or:hover{background:var(--or-d);}
+    .btn-bl{background:var(--bl);color:white;}
+    .btn-bl:hover{background:var(--bl2);}
+    .btn-gr{background:var(--gr);color:white;}
+    .btn-gr:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+    .btn-gs{background:#0f9d58;color:white;}
+    .btn-gs:hover{background:#0b7a44;}
+    .btn-ghost{background:var(--bg);border:1px solid var(--bd);color:var(--t2);}
+    .btn-ghost:hover{background:var(--bg2);}
+    .btn-sm{padding:9px 14px;font-size:13px;width:auto;margin-bottom:0;}
+    .btn-row{display:flex;gap:8px;margin-bottom:8px;}
+    .btn-row .btn{margin-bottom:0;}
 
-#cam-status {
-  display: none; font-size: .78rem; color: var(--text-lt);
-  background: var(--gray-bg); border-radius: 6px; padding: 6px 12px;
-  margin-bottom: 10px; text-align: center;
-}
+    /* LOADING SPINNER */
+    .spinner{display:inline-block;width:18px;height:18px;border:3px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ══ SCAN INPUT ══ */
-.scan-row {
-  display: flex; gap: 8px; align-items: center; margin-bottom: 10px;
-}
-.scan-input {
-  flex: 1; padding: 14px 16px; font-size: 1.1rem;
-  border: 2px solid var(--orange); border-radius: 10px; outline: none;
-  background: var(--orange-lt); color: var(--text);
-  min-width: 0;
-}
-.scan-input:focus { box-shadow: 0 0 0 3px rgba(232,84,10,.2); }
-.scan-input::placeholder { color: #94A3B8; font-size: .95rem; }
+    /* GS INSTRUCTIONS */
+    .gs-steps{background:#f8f9fa;border:1px solid var(--bd);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:12px;}
+    .gs-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:12px;color:var(--t2);line-height:1.5;}
+    .gs-step:last-child{margin-bottom:0;}
+    .gs-num{width:20px;height:20px;border-radius:50%;background:var(--bl);color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+    .gs-url-preview{background:#e8f5e9;border:1px solid #a5d6a7;border-radius:6px;padding:8px 10px;font-size:11px;color:#1b5e20;word-break:break-all;margin-bottom:12px;font-family:monospace;}
 
-/* ══ RESULT PANEL ══ */
-.result-panel {
-  border: 2px solid var(--gray-border);
-  border-radius: 10px; padding: 16px; min-height: 160px;
-  transition: border-color .25s, background .25s;
-}
-.result-panel.found    { border-color: var(--green); background: var(--green-lt); }
-.result-panel.notfound { border-color: var(--red);   background: var(--red-lt);   }
-.result-panel.idle     { background: #F8FAFC; }
+    .minuta-card{background:var(--bl);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:12px;}
+    .mc-label{font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px;}
+    .mc-num{font-size:26px;font-weight:700;color:white;font-family:monospace;letter-spacing:2px;line-height:1;}
+    .mc-info{display:flex;gap:8px;margin-top:10px;}
+    .mc-item{flex:1;background:rgba(255,255,255,.1);border-radius:6px;padding:7px 8px;text-align:center;}
+    .mc-item-val{font-size:19px;font-weight:700;color:white;line-height:1;}
+    .mc-item-key{font-size:9px;color:rgba(255,255,255,.5);margin-top:2px;text-transform:uppercase;letter-spacing:.4px;}
+    .mc-item.ok .mc-item-val{color:#4ade80;}
+    .mc-item.warn .mc-item-val{color:#fb923c;}
+    .mc-item.done .mc-item-val{color:#4ade80;}
+    .prog-bar{height:12px;background:rgba(255,255,255,.2);border-radius:6px;overflow:hidden;margin-top:10px;}
+    .prog-fill{height:100%;border-radius:6px;transition:width .5s ease;background:var(--or);}
+    .prog-fill.complete{background:#4ade80;}
+    .prog-label{font-size:11px;color:rgba(255,255,255,.6);margin-top:4px;text-align:center;}
 
-.r-status { display: flex; align-items: center; gap: 8px; font-size: .95rem; font-weight: 700; margin-bottom: 12px; }
-.r-found    { color: var(--green); }
-.r-notfound { color: var(--red); }
+    /* ── BOX BADGE ── */
+    .box-badge{background:var(--or-l);border:0.5px solid var(--or-m);border-radius:var(--r-sm);padding:9px 13px;margin-bottom:11px;display:flex;align-items:center;gap:10px;}
+    .bb-num{font-size:17px;font-weight:700;color:var(--or-d);font-family:monospace;}
+    .bb-label{font-size:10px;color:var(--or-d);}
+    .bb-change{background:none;border:none;color:var(--or-d);font-size:12px;cursor:pointer;text-decoration:underline;margin-left:auto;font-family:inherit;}
 
-.r-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.r-field {
-  background: #fff; border-radius: 8px; padding: 9px 12px;
-  border: 1px solid var(--gray-border);
-}
-.r-field .rl { font-size: .62rem; text-transform: uppercase; letter-spacing: .7px; color: var(--text-lt); margin-bottom: 2px; }
-.r-field .rv { font-size: .95rem; font-weight: 700; }
-.r-field.hi .rv { color: var(--orange); font-size: 1rem; }
-.r-field.s2 { grid-column: span 2; }
+    /* ── BOX MINUTA TAG (novo) ── */
+    .box-minuta-tag{display:inline-flex;align-items:center;gap:6px;background:#0d1f3c;border:1px solid var(--or);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--or);margin-left:8px;}
 
-/* ══ ACTION ROW ══ */
-.action-row {
-  display: none; gap: 10px; align-items: flex-end;
-  margin-top: 12px; flex-wrap: wrap;
-}
-.action-row.show { display: flex; }
-.qty-grp { display: flex; flex-direction: column; gap: 4px; }
-.qty-grp label { font-size: .72rem; font-weight: 700; text-transform: uppercase; color: var(--text-lt); }
-.qty-input {
-  width: 100px; padding: 12px 10px; font-size: 1.1rem; font-weight: 700;
-  border: 2px solid var(--gray-border); border-radius: 8px;
-  outline: none; text-align: center;
-}
-.qty-input:focus { border-color: var(--orange); }
-@media (max-width: 500px) {
-  .action-row { flex-direction: column; align-items: stretch; }
-  .qty-grp { flex-direction: row; align-items: center; gap: 10px; }
-  .qty-input { width: 80px; }
-}
+    .minuta-selector{background:var(--bg);border:1.5px solid var(--bd);border-radius:var(--r-sm);overflow:hidden;margin-bottom:12px;max-height:300px;overflow-y:auto;}
+    .ms-search{padding:9px 12px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--bg);z-index:1;}
+    .ms-search input{width:100%;padding:8px 12px;font-size:14px;border:1px solid var(--bd);border-radius:6px;outline:none;font-family:inherit;background:var(--bg2);}
+    .ms-search input:focus{border-color:var(--or);}
+    .ms-item{padding:10px 13px;border-bottom:0.5px solid var(--bd);cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .1s;}
+    .ms-item:last-child{border-bottom:none;}
+    .ms-item:hover{background:var(--or-l);}
+    .ms-item.completo{background:var(--gr-l);}
+    .ms-item.completo:hover{background:#d1fae5;}
+    .ms-minuta-num{font-size:15px;font-weight:700;color:var(--bl);font-family:monospace;min-width:70px;}
+    .ms-item.completo .ms-minuta-num{color:var(--gr);}
+    .ms-vols{font-size:12px;color:var(--t2);flex:1;}
+    .ms-box-tag{font-size:10px;color:var(--or-d);background:var(--or-l);border-radius:4px;padding:1px 6px;font-weight:700;margin-right:4px;}
+    .ms-status{font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap;}
+    .ms-status.ok{background:var(--gr-l);color:var(--gr);}
+    .ms-status.parcial{background:var(--am-l);color:var(--am);}
+    .ms-status.pend{background:var(--bl-l);color:var(--bl);}
 
-/* ══ BUTTONS ══ */
-.btn {
-  padding: 12px 20px; border: none; border-radius: 9px; cursor: pointer;
-  font-size: .88rem; font-weight: 700; letter-spacing: .3px;
-  display: flex; align-items: center; justify-content: center; gap: 7px;
-  transition: all .18s; white-space: nowrap; touch-action: manipulation;
-  -webkit-user-select: none; user-select: none;
-}
-.btn:active { transform: scale(.96); }
-.btn-orange { background: var(--orange); color: #fff; }
-.btn-orange:hover { background: var(--orange-dk); }
-.btn-navy   { background: var(--navy);   color: #fff; }
-.btn-navy:hover { background: var(--navy-lt); }
-.btn-green  { background: var(--green);  color: #fff; }
-.btn-green:hover { background: #15803D; }
-.btn-red    { background: var(--red);    color: #fff; }
-.btn-red:hover { background: #B91C1C; }
-.btn-gray   { background: #E2E8F0;       color: var(--text); }
-.btn-gray:hover { background: #CBD5E0; }
-.btn-sm { padding: 8px 14px; font-size: .8rem; }
-.btn-full { width: 100%; }
-.btn-icon { padding: 12px; border-radius: 9px; }
+    .scan-list{margin-bottom:10px;}
+    .scan-item{background:var(--bg);border:0.5px solid var(--bd);border-radius:var(--r-sm);padding:9px 11px;margin-bottom:5px;display:flex;align-items:center;gap:9px;animation:fi .2s ease;}
+    @keyframes fi{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+    .sv-num{width:30px;height:30px;border-radius:50%;background:var(--gr);color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .sv-info{flex:1;min-width:0;}
+    .sv-minuta{font-size:13px;font-weight:700;color:var(--t1);font-family:monospace;}
+    .sv-box{font-size:11px;color:var(--t3);margin-top:1px;}
+    .sv-time{font-size:10px;color:var(--t3);flex-shrink:0;}
+    .sv-del{background:none;border:none;cursor:pointer;color:var(--t3);padding:5px;border-radius:5px;font-size:17px;flex-shrink:0;}
+    .sv-del:hover{color:var(--re);background:var(--re-l);}
 
-/* ══ HISTORY TABLE ══ */
-.hist-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.hist-table { width: 100%; border-collapse: collapse; font-size: .8rem; min-width: 480px; }
-.hist-table thead tr { background: var(--navy); color: #fff; }
-.hist-table th { padding: 9px 10px; text-align: left; font-size: .7rem; text-transform: uppercase; letter-spacing: .4px; white-space: nowrap; }
-.hist-table tbody tr { border-bottom: 1px solid var(--gray-border); }
-.hist-table tbody tr:hover { background: #F8FAFC; }
-.hist-table td { padding: 8px 10px; }
-.seq-num { font-weight: 900; color: var(--orange); text-align: center; }
-.pkg-num { font-family: monospace; font-weight: 700; }
-.badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: .68rem; font-weight: 700; text-transform: uppercase; }
-.badge-ok  { background: #DCFCE7; color: #166534; }
+    .alert{border-radius:var(--r-sm);padding:10px 13px;margin-bottom:10px;display:flex;align-items:flex-start;gap:9px;font-size:13px;}
+    .alert.success{background:var(--gr-l);border:0.5px solid var(--gr-m);color:var(--gr);}
+    .alert.warning{background:var(--am-l);border:0.5px solid var(--am-m);color:var(--am);}
+    .alert.error{background:var(--re-l);border:0.5px solid #fca5a5;color:var(--re);}
+    .alert i{font-size:18px;flex-shrink:0;margin-top:1px;}
 
-/* ══ SIDE ══ */
-.side { display: flex; flex-direction: column; gap: 12px; }
+    .rtable{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:12px;}
+    .rtable th{background:var(--bl);color:white;padding:8px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.5px;}
+    .rtable td{padding:8px 10px;border-bottom:0.5px solid var(--bd);}
+    .rtable tr:hover td{background:var(--bg2);}
+    .pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;}
+    .pill-ok{background:var(--gr-l);color:var(--gr);}
+    .pill-warn{background:var(--am-l);color:var(--am);}
+    .pill-pend{background:var(--bl-l);color:var(--bl);}
 
-/* ══ IMPORT AREA ══ */
-.drop-area {
-  border: 2px dashed var(--gray-border); border-radius: 9px; padding: 18px;
-  text-align: center; cursor: pointer; transition: all .2s;
-}
-.drop-area:hover, .drop-area.drag { border-color: var(--orange); background: var(--orange-lt); }
-.drop-area .di { font-size: 1.8rem; }
-.drop-area p { font-size: .8rem; color: var(--text-lt); margin-top: 5px; }
-#fileInput { display: none; }
+    .base-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:10px;}
+    .base-table th{background:var(--bg2);color:var(--t2);padding:7px 10px;font-size:10px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd);text-align:left;}
+    .base-table td{padding:7px 10px;border-bottom:0.5px solid var(--bd);font-family:monospace;}
 
-.db-stats { display: flex; gap: 8px; margin-top: 10px; }
-.db-stat { flex: 1; background: var(--gray-bg); border-radius: 8px; padding: 8px; text-align: center; }
-.db-stat .sn { font-size: 1.3rem; font-weight: 900; color: var(--navy); }
-.db-stat .sl { font-size: .62rem; color: var(--text-lt); text-transform: uppercase; }
-.prog-wrap { height: 5px; background: var(--gray-border); border-radius: 3px; margin: 8px 0 0; }
-.prog-bar  { height: 5px; background: var(--orange); border-radius: 3px; transition: width .4s; }
+    .source-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:10px;}
+    .source-badge.xlsx{background:#e8f5e9;color:#1b5e20;border:0.5px solid #a5d6a7;}
+    .source-badge.gsheets{background:#e3f2fd;color:#0d47a1;border:0.5px solid #90caf9;}
+    .source-badge.csv{background:#fff8e1;color:#f57f17;border:0.5px solid #ffe082;}
+    .source-badge.txt{background:#fce4ec;color:#880e4f;border:0.5px solid #f48fb1;}
 
-/* ══ DB LIST ══ */
-.db-list { max-height: 240px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-.db-item {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 8px 10px; border-bottom: 1px solid var(--gray-border); font-size: .78rem;
-}
-.db-item .dp { font-family: monospace; font-weight: 700; color: var(--navy); }
-.db-item .dw { font-size: .7rem; color: var(--text-lt); margin-top: 2px; }
-.db-item.chk { background: var(--green-lt); }
-.db-item.chk .dp { color: var(--green); }
+    /* ── EXPORT BAR (novo) ── */
+    .export-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;padding:10px 12px;background:var(--bg2);border-radius:var(--r-sm);border:1px solid var(--bd);}
+    .export-bar span{font-size:11px;font-weight:700;color:var(--t2);align-self:center;margin-right:4px;text-transform:uppercase;letter-spacing:.5px;}
 
-/* ══ MODAL ══ */
-.overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,.6); z-index: 999;
-  align-items: center; justify-content: center; padding: 20px;
-}
-.overlay.show { display: flex; }
-.modal {
-  background: #fff; border-radius: 16px; padding: 28px;
-  max-width: 380px; width: 100%;
-  box-shadow: 0 24px 64px rgba(0,0,0,.35); text-align: center;
-}
-.modal .wi  { font-size: 3rem; }
-.modal h2   { margin: 10px 0 6px; color: var(--navy); font-size: 1.15rem; }
-.modal p    { color: var(--text-lt); font-size: .88rem; margin-bottom: 20px; line-height: 1.5; }
-.modal-btns { display: flex; gap: 10px; justify-content: center; }
+    .empty{text-align:center;padding:22px 16px;color:var(--t3);font-size:13px;}
+    .empty i{font-size:30px;display:block;margin-bottom:8px;opacity:.4;}
+    .divider{border:none;border-top:1px solid var(--bd);margin:12px 0;}
 
-/* ══ TOAST ══ */
-#toast {
-  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
-  background: var(--navy); color: #fff;
-  padding: 12px 22px; border-radius: 10px;
-  font-size: .85rem; font-weight: 600; white-space: nowrap;
-  opacity: 0; transition: all .3s; z-index: 500;
-  pointer-events: none; max-width: 90vw; text-align: center;
-}
-#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);padding:9px 18px;border-radius:30px;font-size:13px;font-weight:700;z-index:500;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;color:white;box-shadow:0 4px 16px rgba(0,0,0,.2);}
+    .toast.show{opacity:1;}
+    .toast.ok{background:var(--gr);}
+    .toast.warn{background:var(--or);}
+    .toast.err{background:var(--re);}
+    .toast.info{background:var(--bl);}
 
-/* ══ PRINT ══ */
-@media print {
-  body > *:not(#printArea) { display: none !important; }
-  #printArea { display: block !important; }
-  @page { size: 100mm 70mm; margin: 4mm; }
-}
-#printArea { display: none; }
-.lp {
-  width: 100mm; height: 70mm;
-  font-family: Arial, sans-serif;
-  border: 1.5pt solid #000;
-  padding: 4mm; box-sizing: border-box;
-}
-.lp .lp-hdr { display: flex; justify-content: space-between; align-items: center; border-bottom: 1pt solid #000; padding-bottom: 2mm; margin-bottom: 2mm; }
-.lp .lp-brand  { font-size: 14pt; font-weight: 900; letter-spacing: 1px; }
-.lp .lp-client { font-size: 7pt; font-weight: 700; text-align: right; color: #333; }
-.lp .lp-seq    { font-size: 26pt; font-weight: 900; text-align: center; margin: 1mm 0; }
-.lp .lp-pkg    { text-align: center; font-size: 12pt; font-weight: 900; border: 1pt solid #000; padding: 1mm; margin: 1.5mm 0; }
-.lp .lp-grid   { display: grid; grid-template-columns: 1fr 1fr; gap: 1mm; }
-.lp .lp-f      { border: .5pt solid #ccc; padding: 1mm 2mm; }
-.lp .lp-f .lfl { font-size: 5pt; text-transform: uppercase; color: #666; }
-.lp .lp-f .lfv { font-size: 8pt; font-weight: 700; }
-.lp .lp-f.full { grid-column: span 2; }
-.lp .lp-foot   { font-size: 5pt; color: #666; text-align: center; margin-top: 1.5mm; }
+    .modal-overlay{position:fixed;inset:0;background:rgba(10,20,50,.65);display:flex;align-items:flex-end;justify-content:center;z-index:300;}
+    .modal{background:var(--bg);border-radius:20px 20px 0 0;padding:22px 20px 34px;width:100%;max-width:520px;animation:slideUp .22s ease;}
+    @keyframes slideUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+    .modal-title{font-size:16px;font-weight:700;color:var(--t1);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+    .modal-btns{display:flex;gap:8px;margin-top:12px;}
+    .modal-btns button{flex:1;padding:12px;border-radius:var(--r-sm);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;border:none;}
+    .modal-ok{background:var(--or);color:white;}
+    .modal-cancel{background:var(--bg2);color:var(--t2);border:1px solid var(--bd) !important;}
 
-/* ══ EMPTY STATE ══ */
-.empty { text-align: center; padding: 32px 16px; color: var(--text-lt); }
-.empty .ei { font-size: 2.2rem; margin-bottom: 8px; }
-.empty p   { font-size: .82rem; }
-
-/* ══ HIDDEN ══ */
-.hidden { display: none !important; }
-
-/* ══ LOTE INFO ══ */
-.lote-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--gray-bg); font-size: .8rem; }
-.lote-row .lk { color: var(--text-lt); }
-.lote-row .lv { font-weight: 700; text-align: right; }
-
-/* ══ SCROLL BARS ══ */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: #F1F5F9; }
-::-webkit-scrollbar-thumb { background: #CBD5E0; border-radius: 3px; }
-</style>
+    .celebrate{text-align:center;padding:16px;}
+    .cel-icon{font-size:52px;margin-bottom:6px;animation:bounce .6s ease infinite alternate;}
+    @keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+    .cel-title{font-size:20px;font-weight:700;color:var(--gr);margin-bottom:5px;}
+    .cel-sub{font-size:13px;color:var(--t2);line-height:1.5;}
+  </style>
 </head>
 <body>
+<div class="app">
 
-<!-- ═══ HEADER ═══ -->
-<header>
-  <div class="hdr-brand">
-    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="5" y="20" width="90" height="60" rx="8" stroke="white" stroke-width="9"/>
-      <path d="M25 50h50M50 30v40" stroke="white" stroke-width="8" stroke-linecap="round"/>
+  <!-- HEADER -->
+  <div class="hdr">
+    <svg width="28" height="22" viewBox="0 0 130 105" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="0,85 18,85 48,48 30,25" fill="white"/>
+      <polygon points="52,85 70,85 40,48 22,25" fill="white"/>
+      <polygon points="18,10 36,10 78,75 60,75" fill="#E8611A"/>
+      <polygon points="55,75 73,75 130,0 112,0" fill="#E8611A"/>
     </svg>
-    PORTOEX
-  </div>
-  <div class="hdr-mid">
-    <div class="hdr-client">▶ TECADI — SKF</div>
-    <div class="hdr-sub">Conferência de Volumes · Garuva/SC</div>
-  </div>
-  <div class="hdr-right">
-    <div class="counter-box">
-      <div class="cl">Leituras</div>
-      <div class="cv" id="counterVal">000</div>
+    <div>
+      <div class="hdr-title">PORTO<span>EX</span></div>
+      <div class="hdr-sub">Conferência de Volumes</div>
     </div>
-    <button class="btn btn-red btn-sm btn-icon" onclick="askReset()" title="Zerar">⟳</button>
-  </div>
-</header>
-
-<!-- ═══ PAGE ═══ -->
-<div class="page">
-
-  <!-- ── COLUNA PRINCIPAL ── -->
-  <div style="display:flex;flex-direction:column;gap:12px;">
-
-    <!-- SCANNER CARD -->
-    <div class="card">
-      <div class="card-hdr">
-        <span>📷</span> Leitura — Código de Barras / Câmera
-      </div>
-      <div class="card-body">
-
-        <!-- TOGGLE: CÂMERA | MANUAL -->
-        <div class="cam-toggle-row">
-          <button class="cam-toggle-btn" id="btnCamera" onclick="setMode('camera')">
-            📷 Câmera
-          </button>
-          <button class="cam-toggle-btn active" id="btnManual" onclick="setMode('manual')">
-            ⌨️ Manual / Leitor
-          </button>
-        </div>
-
-        <!-- CÂMERA -->
-        <div id="cam-reader-wrap">
-          <div id="cam-reader"></div>
-          <div class="cam-overlay">
-            <div class="cam-frame"></div>
-            <div class="cam-hint-text">Aponte o código de barras para o centro</div>
-          </div>
-        </div>
-        <div id="cam-status"></div>
-
-        <!-- MANUAL / LEITOR -->
-        <div id="manual-wrap">
-          <div class="scan-row">
-            <input type="text" id="scanInput" class="scan-input"
-              placeholder="Digite ou aponte o leitor aqui…"
-              autocomplete="off" inputmode="text" />
-            <button class="btn btn-orange" onclick="processManualScan()">🔍</button>
-          </div>
-          <div style="font-size:.75rem;color:var(--text-lt);background:var(--gray-bg);border-radius:6px;padding:6px 12px;">
-            💡 Campo sempre ativo — aponte o leitor ou pressione Enter
-          </div>
-        </div>
-
-        <!-- RESULTADO -->
-        <div class="result-panel idle" id="resultPanel" style="margin-top:14px;">
-          <div class="empty">
-            <div class="ei">📦</div>
-            <p>Aguardando leitura…</p>
-          </div>
-        </div>
-
-        <!-- AÇÕES -->
-        <div class="action-row" id="actionRow">
-          <div class="qty-grp">
-            <label>Qtd. Volumes</label>
-            <input type="number" id="qtyInput" class="qty-input" value="1" min="1" max="9999" inputmode="numeric" />
-          </div>
-          <button class="btn btn-green" style="flex:1;" onclick="confirmAndPrint()">
-            🖨️ Confirmar e Imprimir
-          </button>
-          <button class="btn btn-gray btn-sm" onclick="clearScan()">✕</button>
-        </div>
-
-      </div>
+    <div class="hdr-actions">
+      <button class="btn-hdr" id="btn-hdr-resumo" style="display:none" onclick="App.verResumo()">
+        <i class="ti ti-layout-list"></i> Resumo
+      </button>
+      <button class="btn-hdr" onclick="App.resetAll()"><i class="ti ti-refresh"></i></button>
     </div>
-
-    <!-- HISTÓRICO -->
-    <div class="card">
-      <div class="card-hdr">
-        <span>📋</span> Histórico
-        <button class="btn btn-gray btn-sm" style="margin-left:auto;" onclick="exportCSV()">📥 CSV</button>
-      </div>
-      <div class="card-body" style="padding:0;">
-        <div id="historyWrap">
-          <div class="empty" style="padding:28px;">
-            <div class="ei">📋</div><p>Nenhum item conferido ainda.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-  <!-- ── COLUNA LATERAL ── -->
-  <div class="side">
+  <!-- GLOBAL BAR -->
+  <div class="global-bar" id="global-bar">
+    <div class="gb-title">TOTAIS GERAIS DA CONFERÊNCIA</div>
+    <div class="gb-grid">
+      <div class="gb-item"><div class="gb-val" id="gb-minutas">0</div><div class="gb-key">Minutas</div></div>
+      <div class="gb-item"><div class="gb-val or" id="gb-vols-esp">0</div><div class="gb-key">Esperados</div></div>
+      <div class="gb-item"><div class="gb-val gr" id="gb-vols-lid">0</div><div class="gb-key">Lidos</div></div>
+      <div class="gb-item"><div class="gb-val" id="gb-peso">0kg</div><div class="gb-key">Peso total</div></div>
+    </div>
+  </div>
 
-    <!-- IMPORTAR TXT -->
-    <div class="card">
-      <div class="card-hdr"><span>📂</span> Importar Lista TXT</div>
-      <div class="card-body">
-        <div class="drop-area" id="dropArea"
-          onclick="document.getElementById('fileInput').click()"
-          ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
-          <div class="di">📄</div>
-          <p><strong>Toque / Clique</strong> ou arraste o TXT</p>
-          <p style="font-size:.7rem;margin-top:3px;">Lista de transporte SKF</p>
+  <div class="body">
+    <div class="step-bar">
+      <div class="step active" id="st0"></div>
+      <div class="step" id="st1"></div>
+      <div class="step" id="st2"></div>
+      <div class="step" id="st3"></div>
+    </div>
+
+    <!-- ===== VIEW: IMPORTAR BASE ===== -->
+    <div id="view-import">
+
+      <!-- ACESSO RÁPIDO: BASE TECADI SKF SINCRONIZADA -->
+      <div style="background:linear-gradient(135deg,#0d1f3c,#1A3A6E);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;border:1px solid #254d91;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="#0f9d58"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+          <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;">Base sincronizada</span>
+          <span style="margin-left:auto;background:#0f9d58;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;">● Online</span>
         </div>
-        <input type="file" id="fileInput" accept=".txt,.csv" onchange="loadFile(event)" />
+        <div style="font-size:16px;font-weight:700;color:white;margin-bottom:2px;">BASE TECADI SKF</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:10px;">5 minutas · 64 volumes · 2.771,97 kg</div>
+        <button class="btn btn-gs" onclick="App.carregarTecadiSKF()" style="margin-bottom:0;">
+          <i class="ti ti-cloud-bolt"></i> Carregar BASE TECADI SKF
+        </button>
+      </div>
 
-        <div style="margin-top:10px;">
-          <button class="btn btn-gray btn-sm btn-full" onclick="toggleManualInput()">
-            ✏️ Colar texto manualmente
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <div style="flex:1;height:1px;background:var(--bd);"></div>
+        <span style="font-size:10px;color:var(--t3);">ou importar manualmente</span>
+        <div style="flex:1;height:1px;background:var(--bd);"></div>
+      </div>
+
+      <div class="import-tabs">
+        <button class="import-tab active" id="tab-xlsx" onclick="App.switchImportTab('xlsx')">
+          <i class="ti ti-file-spreadsheet"></i> Excel
+        </button>
+        <button class="import-tab" id="tab-gsheets" onclick="App.switchImportTab('gsheets')">
+          <i class="ti ti-brand-google" style="color:#0f9d58"></i> Google Sheets
+        </button>
+        <button class="import-tab" id="tab-csv" onclick="App.switchImportTab('csv')">
+          <i class="ti ti-file-text"></i> CSV / TXT
+        </button>
+      </div>
+
+      <!-- XLSX -->
+      <div id="import-xlsx">
+        <div class="card blue">
+          <div class="card-title blue"><span class="badge badge-bl">Excel</span> Importar planilha .xlsx</div>
+          <p style="font-size:13px;color:var(--t2);line-height:1.55;">
+            Selecione o arquivo Excel com as colunas:<br>
+            <code style="background:var(--bd);padding:1px 5px;border-radius:3px;font-size:12px;">MINUTA · VOLUMES · PESO REAL · CTE CHAVE</code>
+          </p>
+        </div>
+        <div class="field">
+          <label class="lbl"><i class="ti ti-upload"></i> Selecionar arquivo</label>
+          <input type="file" id="inp-file-xlsx" class="inp-file" accept=".xlsx,.xls" onchange="App.importarXLSX(this)">
+        </div>
+      </div>
+
+      <!-- GOOGLE SHEETS -->
+      <div id="import-gsheets" style="display:none;">
+        <div class="card dark">
+          <div class="card-title white">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#0f9d58"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+            Importar via Google Sheets
+          </div>
+          <p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.6;">Cole o link da planilha Google Sheets e escolha o formato de exportação.</p>
+        </div>
+        <div class="gs-steps">
+          <div class="gs-step"><div class="gs-num">1</div><div>Abra sua planilha no Google Sheets</div></div>
+          <div class="gs-step"><div class="gs-num">2</div><div>Vá em <strong>Compartilhar → Qualquer pessoa com o link pode ver</strong></div></div>
+          <div class="gs-step"><div class="gs-num">3</div><div>Copie o link da barra de endereço</div></div>
+          <div class="gs-step"><div class="gs-num">4</div><div>Cole abaixo e clique em <strong>Carregar</strong></div></div>
+        </div>
+        <div class="field">
+          <label class="lbl"><i class="ti ti-link"></i> Link da planilha Google Sheets</label>
+          <div class="inp-wrap">
+            <input type="url" id="inp-gs-url" class="inp url-inp" placeholder="https://docs.google.com/spreadsheets/d/..." oninput="App.onGSUrlInput(this.value)">
+            <i class="ti ti-brand-google inp-ic" style="color:#0f9d58;"></i>
+          </div>
+        </div>
+        <div id="gs-url-preview" style="display:none;" class="gs-url-preview"></div>
+        <div class="field">
+          <label class="lbl"><i class="ti ti-file-export"></i> Formato de importação</label>
+          <div class="format-row">
+            <button class="fmt-pill active" id="fmt-csv" onclick="App.setGSFormat('csv')"><i class="ti ti-file-text"></i>CSV</button>
+            <button class="fmt-pill" id="fmt-txt" onclick="App.setGSFormat('txt')"><i class="ti ti-file"></i>TXT</button>
+          </div>
+        </div>
+        <button class="btn btn-gs" id="btn-carregar-gs" onclick="App.importarGSheets()" disabled>
+          <i class="ti ti-cloud-download"></i> Carregar do Google Sheets
+        </button>
+        <p style="font-size:11px;color:var(--t3);text-align:center;margin-bottom:8px;">
+          <i class="ti ti-info-circle"></i> A planilha precisa ter permissão <strong>pública</strong> ou <strong>"qualquer pessoa com o link"</strong>
+        </p>
+      </div>
+
+      <!-- CSV / TXT -->
+      <div id="import-csv" style="display:none;">
+        <div class="card orange">
+          <div class="card-title orange"><span class="badge badge-or">CSV / TXT</span> Importar arquivo local</div>
+          <p style="font-size:13px;color:var(--t2);line-height:1.55;">
+            Arquivo deve ter separador <strong>vírgula (CSV)</strong> ou <strong>ponto-e-vírgula / tab (TXT)</strong>.<br>
+            Primeira linha: cabeçalho com <code style="font-size:12px;background:var(--bd);padding:1px 4px;border-radius:3px;">MINUTA, VOLUMES, PESO REAL, CTE CHAVE</code>
+          </p>
+        </div>
+        <div class="field">
+          <label class="lbl"><i class="ti ti-upload"></i> Selecionar arquivo CSV ou TXT</label>
+          <input type="file" id="inp-file-csv" class="inp-file" accept=".csv,.txt,.tsv" onchange="App.importarCSV(this)">
+        </div>
+        <div class="field" style="margin-top:4px;">
+          <label class="lbl"><i class="ti ti-separator"></i> Separador</label>
+          <div class="format-row">
+            <button class="fmt-pill active" id="sep-auto" onclick="App.setSep('auto')"><i class="ti ti-wand"></i>Auto</button>
+            <button class="fmt-pill" id="sep-comma" onclick="App.setSep(',')"><i class="ti ti-comma"></i>Vírgula</button>
+            <button class="fmt-pill" id="sep-semi" onclick="App.setSep(';')"><i class="ti ti-semicolon"></i>Ponto-vírgula</button>
+            <button class="fmt-pill" id="sep-tab" onclick="App.setSep('tab')"><i class="ti ti-arrow-bar-right"></i>Tab</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREVIEW COMUM -->
+      <div id="base-preview" style="display:none;margin-top:4px;">
+        <div class="alert success" id="base-alert">
+          <i class="ti ti-circle-check"></i>
+          <div id="base-alert-text"></div>
+        </div>
+        <div id="source-badge-wrap"></div>
+        <div style="overflow-x:auto;margin-bottom:12px;">
+          <table class="base-table">
+            <thead><tr><th>Minuta</th><th>Volumes</th><th>Peso Real</th></tr></thead>
+            <tbody id="base-tbody"></tbody>
+          </table>
+        </div>
+        <button class="btn btn-bl" onclick="App.irParaConferencia()">
+          <i class="ti ti-arrow-right"></i> Iniciar conferência com esta base
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== VIEW: SELECIONAR MINUTA ===== -->
+    <div id="view-cte" style="display:none;">
+      <div id="box-badge-cte" class="box-badge" style="display:none;">
+        <div>
+          <div class="bb-label"><i class="ti ti-box"></i> BOX ativo</div>
+          <div class="bb-num" id="box-badge-cte-val"></div>
+        </div>
+        <button class="bb-change" onclick="App.trocarBox()">trocar BOX</button>
+      </div>
+
+      <div class="card orange">
+        <div class="card-title orange"><span class="badge badge-or">Scanner</span> Escanear etiqueta CT-e</div>
+        <div class="field" style="margin-bottom:0;">
+          <div class="inp-wrap">
+            <input type="text" id="inp-cte" class="inp blue-f" placeholder="Escaneie o código de barras laranja..."
+              maxlength="60" autocomplete="off"
+              oninput="App.onCTEInput(this.value)" onkeydown="App.onCTEKey(event)">
+            <i class="ti ti-barcode inp-ic"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="card blue">
+        <div class="card-title blue"><span class="badge badge-bl">Lista</span> Selecionar minuta</div>
+        <div class="minuta-selector" id="minuta-selector">
+          <div class="ms-search">
+            <input type="text" id="ms-filter" placeholder="Filtrar por número da minuta..." oninput="App.filtrarMinutas(this.value)">
+          </div>
+          <div id="ms-list"></div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <button class="btn btn-ghost" onclick="App.verResumo()"><i class="ti ti-layout-list"></i> Ver resumo geral</button>
+    </div>
+
+    <!-- ===== VIEW: MINUTA + BOX + VOLUMES ===== -->
+    <div id="view-minuta" style="display:none;">
+      <div class="minuta-card">
+        <div class="mc-label"><i class="ti ti-file-invoice" style="margin-right:4px;"></i>MINUTA</div>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;">
+            <div class="mc-num" id="mc-num">—</div>
+            <!-- TAG do BOX vinculado à minuta (novo) -->
+            <div id="mc-box-tag" class="box-minuta-tag" style="display:none;">
+              <i class="ti ti-box" style="font-size:12px;"></i>
+              <span id="mc-box-tag-val"></span>
+            </div>
+          </div>
+          <button class="btn-hdr" style="padding:5px 10px;font-size:12px;" onclick="App.voltarCTE()">
+            <i class="ti ti-list"></i> Trocar
           </button>
-          <div id="manualImportBox" class="hidden" style="margin-top:8px;">
-            <textarea id="manualText" rows="5"
-              style="width:100%;border:1px solid var(--gray-border);border-radius:6px;padding:8px;font-size:.8rem;resize:vertical;"
-              placeholder="Cole o conteúdo do TXT aqui…"></textarea>
-            <button class="btn btn-orange btn-sm btn-full" style="margin-top:6px;"
-              onclick="parseAndLoad(document.getElementById('manualText').value)">
-              Carregar Dados
-            </button>
+        </div>
+        <div class="mc-info">
+          <div class="mc-item" id="mc-esp-item"><div class="mc-item-val" id="mc-esp-val">0</div><div class="mc-item-key">esperados</div></div>
+          <div class="mc-item" id="mc-lid-item"><div class="mc-item-val" id="mc-lid-val">0</div><div class="mc-item-key">lidos</div></div>
+          <div class="mc-item" id="mc-fal-item"><div class="mc-item-val" id="mc-fal-val">0</div><div class="mc-item-key">faltam</div></div>
+          <div class="mc-item"><div class="mc-item-val" id="mc-peso-val" style="font-size:13px;">—</div><div class="mc-item-key">kg</div></div>
+        </div>
+        <div class="prog-bar"><div class="prog-fill" id="mc-prog"></div></div>
+        <div class="prog-label" id="mc-prog-label"></div>
+      </div>
+
+      <div id="box-input-section">
+        <div class="card amber">
+          <div class="card-title amber"><span class="badge badge-am">Passo 3</span> Ler código do BOX</div>
+          <p style="font-size:13px;color:var(--t2);line-height:1.5;">Escaneie o BOX onde esta minuta está armazenada.</p>
+        </div>
+        <div class="field">
+          <div class="inp-wrap">
+            <input type="text" id="inp-box" class="inp" placeholder="Escaneie o BOX (8 dígitos)..."
+              maxlength="30" autocomplete="off" inputmode="numeric"
+              oninput="App.onBoxInput(this.value)" onkeydown="App.onBoxKey(event)">
+            <i class="ti ti-barcode inp-ic"></i>
           </div>
         </div>
+        <button class="btn btn-or" onclick="App.confirmBox()"><i class="ti ti-link"></i> Vincular BOX e conferir volumes</button>
+      </div>
 
-        <div class="db-stats" id="dbStats" style="display:none;">
-          <div class="db-stat"><div class="sn" id="statTotal">0</div><div class="sl">Pacotes</div></div>
-          <div class="db-stat"><div class="sn" id="statChk">0</div><div class="sl">Conferidos</div></div>
-          <div class="db-stat"><div class="sn" id="statPend">0</div><div class="sl">Pendentes</div></div>
+      <div id="vol-section" style="display:none;">
+        <div class="box-badge" id="box-badge-minuta">
+          <div><div class="bb-label"><i class="ti ti-box"></i> BOX vinculado à minuta</div><div class="bb-num" id="box-minuta-val"></div></div>
+          <button class="bb-change" onclick="App.pedirBox()">trocar</button>
         </div>
-        <div class="prog-wrap" id="progWrap" style="display:none;">
-          <div class="prog-bar" id="progBar" style="width:0%"></div>
+        <div class="card green">
+          <div class="card-title green"><span class="badge badge-gr">Passo 4</span> Registrar volumes</div>
+          <p style="font-size:13px;color:var(--t2);line-height:1.5;">Pressione <strong>+ Registrar</strong> para cada volume físico conferido.</p>
         </div>
+        <div class="btn-row" style="margin-bottom:10px;">
+          <button class="btn btn-gr" onclick="App.registrarVolume()" style="flex:2;"><i class="ti ti-plus"></i> Registrar +1 volume</button>
+          <button class="btn btn-ghost btn-sm" onclick="App.pedirBox()"><i class="ti ti-box"></i></button>
+          <button class="btn btn-ghost btn-sm" onclick="App.voltarCTE()"><i class="ti ti-list"></i></button>
+        </div>
+        <div id="vol-alert" style="display:none;"></div>
+        <div id="vol-list" class="scan-list"></div>
       </div>
     </div>
 
-    <!-- BASE DE PACOTES -->
-    <div class="card" style="flex:1;min-height:200px;">
-      <div class="card-hdr">
-        <span>🗄️</span> Base de Pacotes
-        <button class="btn btn-gray btn-sm" style="margin-left:auto;" onclick="clearDB()">🗑️</button>
+    <!-- ===== VIEW: RESUMO ===== -->
+    <div id="view-resumo" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+        <div style="font-size:15px;font-weight:700;color:var(--t1);">Resumo Geral</div>
+        <button class="btn btn-or btn-sm" onclick="App.voltarConferencia()"><i class="ti ti-arrow-left"></i> Continuar</button>
       </div>
-      <div class="card-body" style="padding:6px;">
-        <div class="db-list" id="dbList">
-          <div class="empty" style="padding:20px;">
-            <div class="ei">📭</div><p>Importe uma lista.</p>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- INFO LOTE -->
-    <div class="card" id="loteCard" style="display:none;">
-      <div class="card-hdr"><span>📦</span> Info do Lote</div>
-      <div class="card-body" style="padding:12px 16px;">
-        <div id="loteInfo"></div>
+      <!-- BARRA DE EXPORTAÇÃO (novo) -->
+      <div class="export-bar">
+        <span><i class="ti ti-download" style="font-size:14px;"></i> Exportar:</span>
+        <button class="btn btn-ghost btn-sm" onclick="App.exportarCSV()"><i class="ti ti-file-spreadsheet"></i> CSV</button>
+        <button class="btn btn-ghost btn-sm" onclick="App.exportarTXT()"><i class="ti ti-file-text"></i> TXT</button>
+        <button class="btn btn-ghost btn-sm" onclick="App.imprimirResumo()"><i class="ti ti-printer"></i> PDF / Imprimir</button>
+      </div>
+
+      <div id="resumo-totais" style="background:var(--bl);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:12px;"></div>
+      <div id="resumo-alerts" style="margin-bottom:10px;"></div>
+      <div style="overflow-x:auto;">
+        <table class="rtable">
+          <thead><tr><th>Minuta</th><th>BOX(es)</th><th>Esp.</th><th>Lido</th><th>Peso</th><th>Status</th></tr></thead>
+          <tbody id="resumo-tbody"></tbody>
+          <tfoot id="resumo-tfoot" style="background:var(--bg2);font-weight:700;"></tfoot>
+        </table>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- ═══ RESET MODAL ═══ -->
-<div class="overlay" id="resetOverlay">
-  <div class="modal">
-    <div class="wi">⚠️</div>
-    <h2>ATENÇÃO — Zerar Contador</h2>
-    <p id="resetMsg">Esta ação apaga o contador e todo o histórico de conferência. <strong>Não pode ser desfeita.</strong></p>
+<!-- MODAL COMPLETO -->
+<div class="modal-overlay" id="modal-completo" style="display:none;">
+  <div class="modal" style="text-align:center;">
+    <div class="celebrate">
+      <div class="cel-icon">✅</div>
+      <div class="cel-title" id="cel-title">Minuta fechada!</div>
+      <div class="cel-sub" id="cel-sub"></div>
+    </div>
     <div class="modal-btns">
-      <button class="btn btn-gray" onclick="closeReset()">Cancelar</button>
-      <button class="btn btn-red" onclick="confirmReset()">Sim, Zerar</button>
+      <button class="modal-cancel" onclick="App.fecharModalCompleto();App.voltarCTE();">Selecionar outra</button>
+      <button class="modal-ok" onclick="App.fecharModalCompleto();App.verResumo();">Ver resumo</button>
     </div>
   </div>
 </div>
 
-<!-- ═══ PRINT ═══ -->
-<div id="printArea"></div>
+<div id="toast" class="toast"></div>
 
-<!-- ═══ TOAST ═══ -->
-<div id="toast"></div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-// ─────────────────────────────────
-//  STATE
-// ─────────────────────────────────
-let db = [], history = [], counter = 0, currentItem = null;
-let loteInfo = {}, resetFirst = true;
-let scannerRunning = false, html5QrCode = null;
-let scanCooldown = false;
+const App = (() => {
+  let state = {
+    base:[], cteMap:{}, minutaMap:{}, conferencias:{},
+    minutaBoxMap:{},          // ← NOVO: BOX vinculado por minuta
+    currentMinuta:null, currentBox:null, globalSeq:0,
+    filterText:'', importTab:'xlsx', gsFormat:'csv', separator:'auto',
+    sourceLabel:'',
+  };
 
-// ─────────────────────────────────
-//  COUNTER
-// ─────────────────────────────────
-function updateCounter() {
-  document.getElementById('counterVal').textContent = String(counter).padStart(3,'0');
-}
+  // ── UTILS ──────────────────────────────────────────────────────
 
-// ─────────────────────────────────
-//  MODE TOGGLE (Camera / Manual)
-// ─────────────────────────────────
-let currentMode = 'manual';
-
-function setMode(mode) {
-  currentMode = mode;
-  document.getElementById('btnCamera').classList.toggle('active', mode === 'camera');
-  document.getElementById('btnManual').classList.toggle('active', mode === 'manual');
-  document.getElementById('cam-reader-wrap').classList.toggle('visible', mode === 'camera');
-  document.getElementById('manual-wrap').classList.toggle('hidden', mode === 'camera');
-
-  if (mode === 'camera') {
-    startCamera();
-  } else {
-    stopCamera();
-    document.getElementById('scanInput').focus();
-  }
-}
-
-// ─────────────────────────────────
-//  CAMERA SCANNER (html5-qrcode)
-// ─────────────────────────────────
-function startCamera() {
-  const statusEl = document.getElementById('cam-status');
-  statusEl.style.display = 'block';
-  statusEl.textContent = '⏳ Iniciando câmera…';
-
-  if (!html5QrCode) {
-    html5QrCode = new Html5Qrcode('cam-reader');
+  function toast(msg,type,dur){
+    dur=dur||2400;
+    const t=document.getElementById('toast');
+    t.textContent=msg; t.className='toast '+(type||'ok')+' show';
+    clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),dur);
   }
 
-  Html5Qrcode.getCameras().then(cameras => {
-    if (!cameras || cameras.length === 0) {
-      statusEl.textContent = '❌ Câmera não encontrada.';
-      return;
-    }
-
-    // Prefer back camera on mobile
-    let camId = cameras[cameras.length - 1].id;
-    const back = cameras.find(c =>
-      /back|rear|environment|traseira|tras/i.test(c.label)
+  function showView(v){
+    ['import','cte','minuta','resumo'].forEach(id=>
+      document.getElementById('view-'+id).style.display='none'
     );
-    if (back) camId = back.id;
+    document.getElementById('view-'+v).style.display='block';
+    const steps={import:0,cte:1,minuta:2,resumo:3};
+    const cur=steps[v]||0;
+    for(let i=0;i<4;i++){
+      const el=document.getElementById('st'+i);
+      el.className='step'+(i<cur?' done':i===cur?' active':'');
+    }
+    const gb=document.getElementById('global-bar');
+    gb.className='global-bar'+(state.base.length&&v!=='import'?' show':'');
+    document.getElementById('btn-hdr-resumo').style.display=state.base.length?'flex':'none';
+    if(v==='cte'){renderMinutaList(); setTimeout(()=>document.getElementById('inp-cte').focus(),120);}
+  }
 
-    const config = {
-      fps: 10,
-      qrbox: { width: 280, height: 180 },
-      aspectRatio: 1.6,
-      formatsToSupport: [
-        Html5QrcodeSupportedFormats.CODE_128,
-        Html5QrcodeSupportedFormats.CODE_39,
-        Html5QrcodeSupportedFormats.EAN_13,
-        Html5QrcodeSupportedFormats.EAN_8,
-        Html5QrcodeSupportedFormats.ITF,
-        Html5QrcodeSupportedFormats.QR_CODE,
-      ]
+  function minutaConf(m){ if(!state.conferencias[m]) state.conferencias[m]=[]; return state.conferencias[m]; }
+  function lidos(m)    { return minutaConf(m).length; }
+  function esperados(m){ return state.minutaMap[m]?state.minutaMap[m].volumes:0; }
+  function faltam(m)   { return Math.max(0,esperados(m)-lidos(m)); }
+  function completo(m) { return esperados(m)>0&&lidos(m)>=esperados(m); }
+
+  function atualizarGlobalBar(){
+    if(!state.base.length) return;
+    const totalEsp=state.base.reduce((a,b)=>a+b.volumes,0);
+    const totalLid=state.base.reduce((a,b)=>a+lidos(b.minuta),0);
+    const totalPeso=state.base.reduce((a,b)=>a+b.pesoReal,0);
+    document.getElementById('gb-minutas').textContent=state.base.length;
+    document.getElementById('gb-vols-esp').textContent=totalEsp;
+    document.getElementById('gb-vols-lid').textContent=totalLid;
+    document.getElementById('gb-peso').textContent=totalPeso.toFixed(1)+'kg';
+  }
+
+  // ── IMPORT TABS ──────────────────────────────────────────────
+
+  function switchImportTab(tab){
+    state.importTab=tab;
+    ['xlsx','gsheets','csv'].forEach(t=>{
+      document.getElementById('tab-'+t).className='import-tab'+(t===tab?' active':'');
+      document.getElementById('import-'+t).style.display=t===tab?'block':'none';
+    });
+    document.getElementById('base-preview').style.display='none';
+  }
+
+  // ── PROCESSAR DADOS ──────────────────────────────────────────
+
+  function processarDados(rows, sourceLabel){
+    if(!rows.length){toast('Nenhum dado encontrado','err');return;}
+    state.base=[]; state.cteMap={}; state.minutaMap={};
+
+    rows.forEach(row=>{
+      const n={};
+      Object.keys(row).forEach(k=>{ n[k.trim().toUpperCase().replace(/\s+/g,'_')]=String(row[k]||'').trim(); });
+      const minuta=(n['MINUTA']||'').replace(/\.0$/,'');
+      const volumes=parseInt(n['VOLUMES']||n['VOLUME']||'0',10)||0;
+      const pesoReal=parseFloat((n['PESO_REAL']||n['PESOREAL']||n['PESO']||'0').replace(',','.'))||0;
+      const cteChave=(n['CTE_CHAVE']||n['CTECHAVE']||n['CHAVE']||n['CTE']||'').replace(/\s/g,'');
+      if(!minuta||isNaN(volumes)) return;
+      const item={minuta,volumes,pesoReal,cteChave};
+      state.base.push(item);
+      state.minutaMap[minuta]=item;
+      if(cteChave.length>=40) state.cteMap[cteChave]=item;
+    });
+
+    if(!state.base.length){toast('Nenhuma minuta válida encontrada','err');return;}
+    state.base.forEach(b=>{ if(!state.conferencias[b.minuta]) state.conferencias[b.minuta]=[]; });
+    state.sourceLabel=sourceLabel;
+
+    const totalV=state.base.reduce((a,b)=>a+b.volumes,0);
+    const totalP=state.base.reduce((a,b)=>a+b.pesoReal,0);
+    document.getElementById('base-alert-text').innerHTML=
+      `<strong>${state.base.length} minutas</strong> · <strong>${totalV} volumes</strong> · <strong>${totalP.toFixed(2)} kg</strong>`;
+
+    const srcMap={
+      xlsx:{cls:'xlsx',icon:'ti-file-spreadsheet',label:'Excel .xlsx'},
+      gsheets:{cls:'gsheets',icon:'ti-brand-google',label:'Google Sheets'},
+      csv:{cls:'csv',icon:'ti-file-text',label:'CSV'},
+      txt:{cls:'txt',icon:'ti-file',label:'TXT'},
     };
+    const s=srcMap[sourceLabel]||srcMap['xlsx'];
+    document.getElementById('source-badge-wrap').innerHTML=
+      `<span class="source-badge ${s.cls}"><i class="ti ${s.icon}"></i> ${s.label}</span>`;
 
-    html5QrCode.start(camId, config, onScanSuccess, onScanError)
-      .then(() => {
-        scannerRunning = true;
-        statusEl.textContent = '✅ Câmera ativa — aponte o código de barras';
-        setTimeout(() => { statusEl.style.display = 'none'; }, 2500);
-      })
-      .catch(err => {
-        statusEl.textContent = '❌ Erro ao iniciar câmera: ' + err;
-        console.error(err);
-      });
+    const tbody=document.getElementById('base-tbody');
+    tbody.innerHTML=state.base.map(b=>
+      `<tr><td style="font-weight:700;">${b.minuta}</td><td style="text-align:center;">${b.volumes}</td><td>${b.pesoReal.toFixed(2)} kg</td></tr>`
+    ).join('');
 
-  }).catch(err => {
-    statusEl.textContent = '❌ Permissão de câmera negada.';
-    console.error(err);
-  });
-}
-
-function stopCamera() {
-  if (html5QrCode && scannerRunning) {
-    html5QrCode.stop().then(() => {
-      scannerRunning = false;
-      document.getElementById('cam-status').style.display = 'none';
-    }).catch(() => {});
+    document.getElementById('base-preview').style.display='block';
+    toast(`Base carregada: ${state.base.length} minutas`,'ok');
   }
-}
 
-function onScanSuccess(decodedText) {
-  if (scanCooldown) return;
-  scanCooldown = true;
-  // Vibrate on success
-  if (navigator.vibrate) navigator.vibrate(80);
-  processBarcode(decodedText.trim());
-  setTimeout(() => { scanCooldown = false; }, 2000);
-}
+  // ── XLSX ─────────────────────────────────────────────────────
 
-function onScanError(err) { /* silence */ }
-
-// ─────────────────────────────────
-//  MANUAL INPUT
-// ─────────────────────────────────
-const scanInput = document.getElementById('scanInput');
-
-document.addEventListener('click', e => {
-  if (currentMode === 'manual' && !e.target.closest('input,textarea,button,select')) {
-    scanInput.focus();
+  function importarXLSX(input){
+    const file=input.files[0]; if(!file) return;
+    const reader=new FileReader();
+    reader.onload=(e)=>{
+      try{
+        const wb=XLSX.read(e.target.result,{type:'array'});
+        const ws=wb.Sheets[wb.SheetNames[0]];
+        const data=XLSX.utils.sheet_to_json(ws,{defval:''});
+        processarDados(data,'xlsx');
+      }catch(err){toast('Erro ao ler Excel: '+err.message,'err',5000);}
+    };
+    reader.readAsArrayBuffer(file);
   }
-});
 
-scanInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter') { e.preventDefault(); processManualScan(); }
-});
+  // ── GOOGLE SHEETS ────────────────────────────────────────────
 
-function processManualScan() {
-  const raw = scanInput.value.trim();
-  if (!raw) return;
-  processBarcode(raw);
-  scanInput.value = '';
-  scanInput.focus();
-}
-
-// ─────────────────────────────────
-//  BARCODE LOOKUP
-// ─────────────────────────────────
-function processBarcode(raw) {
-  const cleaned = raw.replace(/[^0-9A-Za-z\-\/]/g, '').trim();
-
-  let found = db.find(d =>
-    d.pkg === cleaned || d.pkg === raw ||
-    cleaned.includes(d.pkg) || raw.includes(d.pkg) ||
-    (d.nota && (d.nota === cleaned || d.nota === raw))
-  );
-
-  if (!found) {
-    const nums = raw.match(/\d{7,}/g);
-    if (nums) for (const n of nums) {
-      found = db.find(d => d.pkg === n);
-      if (found) break;
+  function onGSUrlInput(v){
+    const btn=document.getElementById('btn-carregar-gs');
+    const preview=document.getElementById('gs-url-preview');
+    if(!v.trim()||!v.includes('docs.google.com')){
+      btn.disabled=true; preview.style.display='none'; return;
     }
+    btn.disabled=false;
+    const exportUrl=buildGSExportUrl(v.trim(), state.gsFormat);
+    preview.style.display='block';
+    preview.textContent=exportUrl||'URL de exportação será gerada automaticamente';
   }
 
-  showResult(found, raw);
-}
+  function buildGSExportUrl(url, format){
+    const match=url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+    if(!match) return null;
+    const id=match[1];
+    const gidMatch=url.match(/[#&]gid=(\d+)/);
+    const gid=gidMatch?gidMatch[1]:'0';
+    const fmt=format==='txt'?'tsv':'csv';
+    return `https://docs.google.com/spreadsheets/d/${id}/export?format=${fmt}&gid=${gid}`;
+  }
 
-// ─────────────────────────────────
-//  SHOW RESULT
-// ─────────────────────────────────
-function showResult(item, raw) {
-  const panel = document.getElementById('resultPanel');
-  const aRow  = document.getElementById('actionRow');
+  function setGSFormat(fmt){
+    state.gsFormat=fmt;
+    ['csv','txt'].forEach(f=>{
+      document.getElementById('fmt-'+f).className='fmt-pill'+(f===fmt?' active':'');
+    });
+    const url=document.getElementById('inp-gs-url').value;
+    if(url) onGSUrlInput(url);
+  }
 
-  if (item) {
-    currentItem = item;
-    panel.className = 'result-panel found';
-    panel.innerHTML = `
-      <div class="r-status r-found">✅ Pacote encontrado!</div>
-      <div class="r-grid">
-        <div class="r-field hi s2">
-          <div class="rl">Nº Embalagem</div>
-          <div class="rv">${item.pkg}</div>
-        </div>
-        <div class="r-field">
-          <div class="rl">Peso Bruto</div>
-          <div class="rv">${item.weight ? item.weight+' kg' : '—'}</div>
-        </div>
-        <div class="r-field">
-          <div class="rl">Tipo</div>
-          <div class="rv">${item.type || '—'}</div>
-        </div>
-        <div class="r-field">
-          <div class="rl">Nota Fiscal</div>
-          <div class="rv">${item.nota || item.invoice || '—'}</div>
-        </div>
-        <div class="r-field">
-          <div class="rl">Lote</div>
-          <div class="rv">${loteInfo.lote || item.lote || '—'}</div>
-        </div>
-        ${item.desc ? `<div class="r-field s2"><div class="rl">Descrição</div><div class="rv">${item.desc}</div></div>` : ''}
-        ${loteInfo.dest ? `<div class="r-field s2"><div class="rl">Destinatário</div><div class="rv">${loteInfo.dest}</div></div>` : ''}
+  async function importarGSheets(){
+    const url=document.getElementById('inp-gs-url').value.trim();
+    if(!url){toast('Insira o link da planilha','err');return;}
+    const exportUrl=buildGSExportUrl(url,state.gsFormat);
+    if(!exportUrl){toast('Link inválido — use o link do Google Sheets','err');return;}
+
+    const btn=document.getElementById('btn-carregar-gs');
+    btn.disabled=true;
+    btn.innerHTML='<div class="spinner"></div> Carregando...';
+
+    const proxies=[
+      'https://corsproxy.io/?',
+      'https://api.allorigins.win/raw?url=',
+      'https://cors-anywhere.herokuapp.com/',
+    ];
+
+    let loaded=false;
+    for(const proxy of proxies){
+      try{
+        const proxyUrl=proxy+encodeURIComponent(exportUrl);
+        const resp=await fetch(proxyUrl,{signal:AbortSignal.timeout(10000)});
+        if(!resp.ok) continue;
+        const text=await resp.text();
+        if(!text||text.trim().length<10) continue;
+        const sep=state.gsFormat==='txt'?'\t':',';
+        const rows=parseCSVText(text,sep);
+        if(!rows.length) continue;
+        processarDados(rows,'gsheets');
+        loaded=true;
+        break;
+      }catch(e){ continue; }
+    }
+
+    if(!loaded){
+      toast('Proxy indisponível — abrindo download direto...','warn',4000);
+      window.open(exportUrl,'_blank');
+      setTimeout(()=>{
+        toast('Salve o arquivo e importe na aba CSV/TXT','info',6000);
+        switchImportTab('csv');
+      },2500);
+    }
+
+    btn.disabled=false;
+    btn.innerHTML='<i class="ti ti-cloud-download"></i> Carregar do Google Sheets';
+  }
+
+  // ── CSV / TXT ────────────────────────────────────────────────
+
+  function setSep(sep){
+    state.separator=sep;
+    ['auto','comma','semi','tab'].forEach(s=>{
+      document.getElementById('sep-'+s).className='fmt-pill'+(s===sep?' active':'');
+    });
+  }
+
+  function importarCSV(input){
+    const file=input.files[0]; if(!file) return;
+    const reader=new FileReader();
+    reader.onload=(e)=>{
+      try{
+        const text=e.target.result;
+        let sep=state.separator;
+        if(sep==='auto'){
+          const firstLine=text.split('\n')[0];
+          if(firstLine.includes('\t')) sep='\t';
+          else if(firstLine.split(';').length>firstLine.split(',').length) sep=';';
+          else sep=',';
+        }else if(sep==='tab') sep='\t';
+        const rows=parseCSVText(text,sep);
+        const label=file.name.endsWith('.txt')?'txt':'csv';
+        processarDados(rows,label);
+      }catch(err){toast('Erro ao ler arquivo: '+err.message,'err',5000);}
+    };
+    reader.readAsText(file,'UTF-8');
+  }
+
+  function parseCSVText(text,sep){
+    const lines=text.trim().split(/\r?\n/);
+    if(lines.length<2) return [];
+    const headers=lines[0].split(sep).map(h=>h.replace(/^["']|["']$/g,'').trim());
+    return lines.slice(1).filter(l=>l.trim()).map(line=>{
+      const vals=line.split(sep).map(v=>v.replace(/^["']|["']$/g,'').trim());
+      const obj={};
+      headers.forEach((h,i)=>{ obj[h]=vals[i]||''; });
+      return obj;
+    });
+  }
+
+  // ── CONFERÊNCIA ──────────────────────────────────────────────
+
+  function irParaConferencia(){
+    if(!state.base.length){toast('Importe a base primeiro','err');return;}
+    atualizarGlobalBar();
+    showView('cte');
+  }
+
+  function renderMinutaList(filter){
+    filter=(filter||'').trim().toLowerCase();
+    const list=document.getElementById('ms-list');
+    const items=state.base.filter(b=>!filter||b.minuta.toLowerCase().includes(filter));
+    if(!items.length){list.innerHTML='<div class="empty"><i class="ti ti-search-off"></i>Nenhuma minuta encontrada.</div>';return;}
+    list.innerHTML=items.map(b=>{
+      const lid=lidos(b.minuta),esp=b.volumes,ok=completo(b.minuta),parcial=!ok&&lid>0;
+      const sc=ok?'ok':parcial?'parcial':'pend',st=ok?'Completo ✓':parcial?`${lid}/${esp}`:'Pendente';
+      // ── mostra o BOX vinculado na lista (novo) ──
+      const boxTag=state.minutaBoxMap[b.minuta]
+        ?`<span class="ms-box-tag"><i class="ti ti-box" style="font-size:10px;"></i> ${state.minutaBoxMap[b.minuta]}</span>`
+        :'';
+      return `<div class="ms-item${ok?' completo':''}" onclick="App.selecionarMinuta('${b.minuta}')">
+        <div class="ms-minuta-num">${b.minuta}</div>
+        <div class="ms-vols">${boxTag}${esp} vol · ${b.pesoReal.toFixed(1)} kg</div>
+        <span class="ms-status ${sc}">${st}</span>
       </div>`;
-    aRow.classList.add('show');
-    document.getElementById('qtyInput').value = 1;
-    document.getElementById('qtyInput').focus();
-  } else {
-    currentItem = null;
-    panel.className = 'result-panel notfound';
-    panel.innerHTML = `
-      <div class="r-status r-notfound">❌ Não encontrado</div>
-      <p style="color:var(--text-lt);font-size:.85rem;">
-        Código: <strong style="font-family:monospace;">${raw}</strong><br>
-        Verifique se a lista foi importada.
-      </p>`;
-    aRow.classList.remove('show');
-    showToast('⚠️ Não localizado: ' + raw, 3000);
+    }).join('');
   }
-}
 
-// ─────────────────────────────────
-//  CONFIRMAR + IMPRIMIR
-// ─────────────────────────────────
-function confirmAndPrint() {
-  if (!currentItem) return;
-  const qty = parseInt(document.getElementById('qtyInput').value) || 1;
+  function filtrarMinutas(v){ state.filterText=v; renderMinutaList(v); }
+  function selecionarMinuta(m){ state.currentMinuta=m; abrirMinuta(m); }
 
-  counter++;
-  updateCounter();
-
-  const dbItem = db.find(d => d.pkg === currentItem.pkg);
-  if (dbItem) { dbItem._checked = true; dbItem._qty = qty; dbItem._seq = counter; }
-
-  const ts = new Date().toLocaleTimeString('pt-BR');
-  history.unshift({ seq: counter, item: { ...currentItem }, qty, ts });
-
-  updateHistory();
-  updateDBList();
-  updateStats();
-  printLabel(currentItem, qty, counter);
-  showToast(`✅ #${String(counter).padStart(3,'0')} — Pacote ${currentItem.pkg} conferido`, 3000);
-  clearScan();
-}
-
-function clearScan() {
-  currentItem = null;
-  document.getElementById('resultPanel').className = 'result-panel idle';
-  document.getElementById('resultPanel').innerHTML =
-    '<div class="empty"><div class="ei">📦</div><p>Aguardando leitura…</p></div>';
-  document.getElementById('actionRow').classList.remove('show');
-  if (currentMode === 'manual') scanInput.focus();
-}
-
-// ─────────────────────────────────
-//  HISTORY
-// ─────────────────────────────────
-function updateHistory() {
-  const w = document.getElementById('historyWrap');
-  if (!history.length) {
-    w.innerHTML = '<div class="empty" style="padding:28px;"><div class="ei">📋</div><p>Nenhum item conferido.</p></div>';
-    return;
+  function onCTEInput(v){
+    if(v.replace(/\s/g,'').length>=44) setTimeout(()=>confirmCTE(),300);
   }
-  w.innerHTML = `
-    <div class="hist-wrap">
-      <table class="hist-table">
-        <thead><tr>
-          <th>Seq.</th><th>Embalagem</th><th>Peso</th>
-          <th>NF</th><th>Vol.</th><th>Hora</th><th>Ok</th>
-        </tr></thead>
-        <tbody>
-          ${history.map(h => `
-            <tr>
-              <td class="seq-num">${String(h.seq).padStart(3,'0')}</td>
-              <td class="pkg-num">${h.item.pkg}</td>
-              <td>${h.item.weight ? h.item.weight+' kg' : '—'}</td>
-              <td>${h.item.nota || h.item.invoice || '—'}</td>
-              <td style="text-align:center;">${h.qty}</td>
-              <td>${h.ts}</td>
-              <td><span class="badge badge-ok">✓</span></td>
-            </tr>`).join('')}
-        </tbody>
-      </table>
-    </div>`;
-}
+  function onCTEKey(e){ if(e.key==='Enter') confirmCTE(); }
 
-// ─────────────────────────────────
-//  PRINT LABEL 100x70mm
-// ─────────────────────────────────
-function printLabel(item, qty, seq) {
-  const now = new Date().toLocaleString('pt-BR');
-  document.getElementById('printArea').innerHTML = `
-    <div class="lp">
-      <div class="lp-hdr">
-        <div class="lp-brand">PORTOEX</div>
-        <div class="lp-client">TECADI — SKF<br>Garuva / SC</div>
-      </div>
-      <div class="lp-seq">#${String(seq).padStart(4,'0')}</div>
-      <div class="lp-pkg">${item.pkg}</div>
-      <div class="lp-grid">
-        <div class="lp-f"><div class="lfl">Peso Bruto</div><div class="lfv">${item.weight ? item.weight+' kg' : '—'}</div></div>
-        <div class="lp-f"><div class="lfl">Tipo</div><div class="lfv">${item.type || '—'}</div></div>
-        <div class="lp-f"><div class="lfl">Nota Fiscal</div><div class="lfv">${item.nota || item.invoice || '—'}</div></div>
-        <div class="lp-f"><div class="lfl">Lote</div><div class="lfv">${loteInfo.lote || '—'}</div></div>
-        <div class="lp-f full"><div class="lfl">Qtd. Volumes</div><div class="lfv" style="font-size:10pt;">${qty} volume(s)</div></div>
-      </div>
-      <div class="lp-foot">${now} · PORTOEX Logística · Conferente: Operador</div>
-    </div>`;
-  setTimeout(() => window.print(), 250);
-}
-
-// ─────────────────────────────────
-//  RESET
-// ─────────────────────────────────
-function askReset() {
-  const msg = document.getElementById('resetMsg');
-  if (resetFirst) {
-    msg.innerHTML = `⚠️ <strong>CUIDADO!</strong> Você irá zerar o contador e apagar todo o histórico de conferência.<br><br>Esta ação é <strong>irreversível</strong>. Continuar?`;
-    resetFirst = false;
+  function confirmCTE(){
+    const raw=document.getElementById('inp-cte').value.trim();
+    if(!raw){toast('Escaneie ou digite','err');return;}
+    const clean=raw.replace(/\s/g,'');
+    document.getElementById('inp-cte').value='';
+    let item=state.cteMap[clean]||state.minutaMap[clean.replace(/^0+/,'')]||state.minutaMap[clean]||null;
+    if(!item&&clean.length>=34)
+      item=Object.values(state.cteMap).find(i=>i.cteChave.slice(25,34)===clean.slice(25,34))||null;
+    if(!item){toast('Minuta não encontrada na base','err',3500);return;}
+    state.currentMinuta=item.minuta;
+    abrirMinuta(item.minuta);
   }
-  document.getElementById('resetOverlay').classList.add('show');
-}
-function closeReset() {
-  document.getElementById('resetOverlay').classList.remove('show');
-  setTimeout(() => { resetFirst = true; }, 500);
-}
-function confirmReset() {
-  counter = 0; history = [];
-  db.forEach(d => { delete d._checked; delete d._qty; delete d._seq; });
-  updateCounter(); updateHistory(); updateDBList(); updateStats(); clearScan();
-  closeReset(); resetFirst = true;
-  showToast('🔄 Contador e histórico zerados.', 2500);
-}
 
-// ─────────────────────────────────
-//  FILE IMPORT
-// ─────────────────────────────────
-function dragOver(e)  { e.preventDefault(); document.getElementById('dropArea').classList.add('drag'); }
-function dragLeave()  { document.getElementById('dropArea').classList.remove('drag'); }
-function dropFile(e)  {
-  e.preventDefault(); dragLeave();
-  const f = e.dataTransfer.files[0];
-  if (f) readTxt(f);
-}
-function loadFile(e)  { const f = e.target.files[0]; if (f) readTxt(f); }
-function readTxt(f)   {
-  const r = new FileReader();
-  r.onload = e => parseAndLoad(e.target.result);
-  r.readAsText(f, 'UTF-8');
-}
-function toggleManualInput() {
-  document.getElementById('manualImportBox').classList.toggle('hidden');
-}
+  function abrirMinuta(minuta){
+    const item=state.minutaMap[minuta]; if(!item) return;
+    document.getElementById('mc-num').textContent=minuta;
+    document.getElementById('mc-peso-val').textContent=item.pesoReal.toFixed(1);
+    atualizarContadores(minuta);
 
-// ─────────────────────────────────
-//  PARSER
-// ─────────────────────────────────
-function parseAndLoad(text) {
-  if (!text?.trim()) { showToast('❌ Arquivo vazio.', 3000); return; }
-
-  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
-
-  let loteNum = '', dest = '', trans = '', totalP = '', totalV = '';
-  for (let i = 0; i < lines.length; i++) {
-    if (/NUMERO DO LOTE/i.test(lines[i])          && lines[i+1]) loteNum = lines[i+1];
-    if (/ENDERE[ÇC]O DE ENTREGA/i.test(lines[i]) && lines[i+1]) dest    = lines[i+1];
-    if (/TRANSPORTADOR/i.test(lines[i])            && lines[i+1]) trans   = lines[i+1];
-    if (/VOLUMES:/i.test(lines[i])                 && lines[i+1]) totalV  = lines[i+1];
-    if (/TOTAL PARA ESTE ENDERE/i.test(lines[i])  && lines[i+1]) totalP  = lines[i+1];
-  }
-  loteInfo = { lote: loteNum, dest, trans, totalP, totalV };
-
-  const isPkg    = s => /^\d{7,10}$/.test(s);
-  const isWeight = s => /^\d+[,\.]\d+$/.test(s);
-  const isType   = s => /^P\d{2}$/.test(s);
-  const isNota   = s => /^\d{7}-\d+$/.test(s);
-
-  const records = [];
-  let i = 0;
-  while (i < lines.length) {
-    const ln = lines[i];
-    if (isPkg(ln) && ln !== loteNum) {
-      let weight='', type='', desc='', nota='';
-      let j = i+1, look = 0;
-      while (j < lines.length && look < 9) {
-        const nx = lines[j];
-        if (isPkg(nx) && nx !== loteNum) break;
-        if (isWeight(nx) && !weight)         weight = nx.replace(',','.');
-        else if (isType(nx) && !type)        type   = nx;
-        else if (isNota(nx) && !nota)        nota   = nx;
-        else if (/^PALLET/i.test(nx) && !desc) desc = nx;
-        j++; look++;
-      }
-      records.push({ pkg: ln, weight, type, desc, nota, invoice: nota, lote: loteNum });
-      i = j; continue;
+    // ── recupera o BOX já vinculado a esta minuta (novo) ──
+    const boxSalvo=state.minutaBoxMap[minuta]||null;
+    if(boxSalvo){
+      state.currentBox=boxSalvo;
     }
-    i++;
+
+    // ── atualiza tag de BOX no card da minuta (novo) ──
+    const tag=document.getElementById('mc-box-tag');
+    if(state.currentBox){
+      document.getElementById('mc-box-tag-val').textContent='BOX '+state.currentBox;
+      tag.style.display='inline-flex';
+    } else {
+      tag.style.display='none';
+    }
+
+    if(state.currentBox){
+      document.getElementById('box-minuta-val').textContent=state.currentBox;
+      document.getElementById('box-badge-minuta').style.display='flex';
+      document.getElementById('box-badge-cte-val').textContent=state.currentBox;
+      document.getElementById('box-badge-cte').style.display='flex';
+      document.getElementById('box-input-section').style.display='none';
+      document.getElementById('vol-section').style.display='block';
+      renderVolList(minuta);
+    }else{
+      document.getElementById('box-badge-cte').style.display='none';
+      document.getElementById('box-badge-minuta').style.display='none';
+      document.getElementById('box-input-section').style.display='block';
+      document.getElementById('vol-section').style.display='none';
+      setTimeout(()=>document.getElementById('inp-box').focus(),150);
+    }
+    showView('minuta');
+    toast(`Minuta ${minuta} · ${item.volumes} vol esperados`,'info');
   }
 
-  if (!records.length) { showToast('⚠️ Nenhum pacote identificado no arquivo.', 4000); return; }
-
-  db = records;
-  updateDBList(); updateStats(); updateLoteCard();
-  document.getElementById('dbStats').style.display = 'flex';
-  document.getElementById('progWrap').style.display = 'block';
-  showToast(`✅ ${records.length} pacote(s) carregado(s)!`, 3000);
-}
-
-// ─────────────────────────────────
-//  DB LIST + STATS + LOTE
-// ─────────────────────────────────
-function updateDBList() {
-  const el = document.getElementById('dbList');
-  if (!db.length) {
-    el.innerHTML = '<div class="empty" style="padding:20px;"><div class="ei">📭</div><p>Importe uma lista.</p></div>';
-    return;
+  function atualizarContadores(minuta){
+    const esp=esperados(minuta),lid=lidos(minuta),fal=faltam(minuta);
+    const pct=esp>0?Math.round(lid/esp*100):0;
+    document.getElementById('mc-esp-val').textContent=esp;
+    document.getElementById('mc-lid-val').textContent=lid;
+    document.getElementById('mc-fal-val').textContent=fal;
+    const prog=document.getElementById('mc-prog');
+    prog.style.width=pct+'%';
+    prog.className='prog-fill'+(completo(minuta)?' complete':'');
+    document.getElementById('mc-prog-label').textContent=`${lid} de ${esp} volumes (${pct}%)`;
+    document.getElementById('mc-lid-item').className='mc-item'+(lid>0?' ok':'');
+    document.getElementById('mc-fal-item').className='mc-item'+(fal===0&&esp>0?' done':fal>0?' warn':'');
+    atualizarGlobalBar();
+    renderMinutaList(state.filterText);
   }
-  el.innerHTML = db.map(d => `
-    <div class="db-item ${d._checked?'chk':''}">
-      <div>
-        <div class="dp">${d._checked?'✅ ':''}${d.pkg}</div>
-        <div class="dw">${d.weight?d.weight+' kg':''} ${d.type||''}</div>
+
+  function onBoxInput(v){ if(/^\d{8}$/.test(v.trim())) setTimeout(()=>confirmBox(),200); }
+  function onBoxKey(e){ if(e.key==='Enter') confirmBox(); }
+
+  function confirmBox(){
+    const raw=document.getElementById('inp-box').value.trim();
+    if(!raw){toast('Digite o número do BOX','err');return;}
+    const num=raw.replace(/\s/g,'');
+    document.getElementById('inp-box').value='';
+    state.currentBox=num;
+
+    // ── salva o BOX para esta minuta (novo) ──
+    if(state.currentMinuta){
+      state.minutaBoxMap[state.currentMinuta]=num;
+    }
+
+    // ── atualiza tag de BOX no card (novo) ──
+    document.getElementById('mc-box-tag-val').textContent='BOX '+num;
+    document.getElementById('mc-box-tag').style.display='inline-flex';
+
+    document.getElementById('box-minuta-val').textContent=num;
+    document.getElementById('box-badge-minuta').style.display='flex';
+    document.getElementById('box-badge-cte-val').textContent=num;
+    document.getElementById('box-badge-cte').style.display='flex';
+    document.getElementById('box-input-section').style.display='none';
+    document.getElementById('vol-section').style.display='block';
+    renderVolList(state.currentMinuta);
+    toast('BOX '+num+' vinculado à minuta '+state.currentMinuta,'ok');
+  }
+
+  function pedirBox(){
+    state.currentBox=null;
+    // ← não apaga minutaBoxMap para não perder o vínculo já registrado
+    document.getElementById('box-badge-minuta').style.display='none';
+    document.getElementById('box-input-section').style.display='block';
+    document.getElementById('vol-section').style.display='none';
+    document.getElementById('inp-box').value='';
+    document.getElementById('mc-box-tag').style.display='none';
+    setTimeout(()=>document.getElementById('inp-box').focus(),120);
+  }
+  function trocarBox(){
+    // Remove vínculo desta minuta ao trocar (novo)
+    if(state.currentMinuta) delete state.minutaBoxMap[state.currentMinuta];
+    pedirBox();
+  }
+
+  function registrarVolume(){
+    const m=state.currentMinuta;
+    if(!m||!state.currentBox){toast('Defina o BOX primeiro','err');return;}
+    if(completo(m)){toast(`Minuta ${m} já completa!`,'warn');return;}
+    state.globalSeq++;
+    minutaConf(m).push({box:state.currentBox,seq:state.globalSeq,timestamp:new Date().toISOString()});
+    atualizarContadores(m);
+    renderVolList(m);
+    checkCompleto(m);
+  }
+
+  function checkCompleto(m){
+    if(!completo(m)) return;
+    const esp=esperados(m);
+    document.getElementById('cel-title').textContent=`Minuta ${m} fechada! ✅`;
+    document.getElementById('cel-sub').textContent=`Todos os ${esp} volume${esp>1?'s':''} conferidos no BOX ${state.currentBox}.`;
+    document.getElementById('modal-completo').style.display='flex';
+    if(navigator.vibrate) navigator.vibrate([200,100,200]);
+  }
+
+  function renderVolList(m){
+    const conf=minutaConf(m),esp=esperados(m);
+    const el=document.getElementById('vol-list'),alertEl=document.getElementById('vol-alert');
+    if(!conf.length){
+      el.innerHTML='<div class="empty"><i class="ti ti-package-off"></i>Nenhum volume registrado.<br>Clique em "+ Registrar volume".</div>';
+      alertEl.style.display='none'; return;
+    }
+    alertEl.style.display='block';
+    alertEl.innerHTML=completo(m)
+      ?`<div class="alert success"><i class="ti ti-circle-check"></i><div><strong>Completo!</strong> Todos os ${esp} volumes conferidos.</div></div>`
+      :`<div class="alert warning"><i class="ti ti-alert-triangle"></i><div>Faltam <strong>${faltam(m)}</strong> volume${faltam(m)>1?'s':''} para fechar.</div></div>`;
+    el.innerHTML=[...conf].reverse().map((c,ri)=>{
+      const pos=conf.length-ri;
+      const hr=new Date(c.timestamp).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+      return `<div class="scan-item">
+        <div class="sv-num">${pos}</div>
+        <div class="sv-info">
+          <div class="sv-minuta">Vol ${pos}/${esp}</div>
+          <div class="sv-box"><i class="ti ti-box" style="font-size:10px;"></i> BOX ${c.box} · #${String(c.seq).padStart(3,'0')}</div>
+        </div>
+        <div class="sv-time">${hr}</div>
+        <button class="sv-del" onclick="App.removerVolume(${conf.length-1-ri})"><i class="ti ti-x"></i></button>
+      </div>`;
+    }).join('');
+  }
+
+  function removerVolume(idx){
+    const m=state.currentMinuta;
+    minutaConf(m).splice(idx,1);
+    atualizarContadores(m); renderVolList(m);
+    toast('Volume removido','warn');
+  }
+
+  function verResumo(){ renderResumo(); showView('resumo'); }
+  function voltarConferencia(){ if(state.currentMinuta) showView('minuta'); else showView('cte'); }
+  function voltarCTE(){ state.currentMinuta=null; showView('cte'); }
+
+  function renderResumo(){
+    atualizarGlobalBar();
+    const minutas=state.base;
+    const totalEsp=minutas.reduce((a,b)=>a+b.volumes,0);
+    const totalLid=minutas.reduce((a,b)=>a+lidos(b.minuta),0);
+    const totalPeso=minutas.reduce((a,b)=>a+b.pesoReal,0);
+    const completas=minutas.filter(b=>completo(b.minuta)).length;
+    const pendentes=minutas.length-completas;
+
+    document.getElementById('resumo-totais').innerHTML=`
+      <div style="color:rgba(255,255,255,.5);font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">TOTAIS GERAIS</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;">
+        <div style="text-align:center;"><div style="font-size:22px;font-weight:700;color:white;">${minutas.length}</div><div style="font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;">minutas</div></div>
+        <div style="text-align:center;"><div style="font-size:22px;font-weight:700;color:#4ade80;">${totalLid}<span style="font-size:13px;color:rgba(255,255,255,.4);">/${totalEsp}</span></div><div style="font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;">volumes lidos</div></div>
+        <div style="text-align:center;"><div style="font-size:22px;font-weight:700;color:#fb923c;">${totalPeso.toFixed(1)}</div><div style="font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;">kg total</div></div>
       </div>
+      <div style="display:flex;gap:8px;">
+        <div style="flex:1;background:rgba(74,222,128,.15);border-radius:6px;padding:6px;text-align:center;"><div style="font-size:16px;font-weight:700;color:#4ade80;">${completas}</div><div style="font-size:9px;color:rgba(255,255,255,.4);">COMPLETAS</div></div>
+        <div style="flex:1;background:rgba(251,146,60,.15);border-radius:6px;padding:6px;text-align:center;"><div style="font-size:16px;font-weight:700;color:#fb923c;">${pendentes}</div><div style="font-size:9px;color:rgba(255,255,255,.4);">PENDENTES</div></div>
+        <div style="flex:1;background:rgba(255,255,255,.07);border-radius:6px;padding:6px;text-align:center;"><div style="font-size:16px;font-weight:700;color:white;">${totalEsp-totalLid}</div><div style="font-size:9px;color:rgba(255,255,255,.4);">FALTANDO</div></div>
+      </div>`;
+
+    let alerts='';
+    if(completas===minutas.length&&minutas.length>0)
+      alerts+=`<div class="alert success"><i class="ti ti-circle-check"></i><div><strong>Conferência 100% concluída!</strong></div></div>`;
+    const incompletas=minutas.filter(b=>lidos(b.minuta)>0&&!completo(b.minuta));
+    if(incompletas.length)
+      alerts+=`<div class="alert warning"><i class="ti ti-alert-triangle"></i><div><strong>${incompletas.length} minuta${incompletas.length>1?'s':''} em andamento.</strong></div></div>`;
+    const semLeitura=minutas.filter(b=>lidos(b.minuta)===0);
+    if(semLeitura.length)
+      alerts+=`<div class="alert error"><i class="ti ti-x"></i><div><strong>${semLeitura.length} minuta${semLeitura.length>1?'s':''} sem leitura.</strong></div></div>`;
+    document.getElementById('resumo-alerts').innerHTML=alerts;
+
+    document.getElementById('resumo-tbody').innerHTML=minutas.map(b=>{
+      const lid=lidos(b.minuta),esp=b.volumes;
+      const boxes=[...new Set(minutaConf(b.minuta).map(c=>c.box))].join(', ')||'—';
+      let st,pc;
+      if(lid===0){st='Pendente';pc='pill-pend';}
+      else if(lid>=esp){st='Completo ✓';pc='pill-ok';}
+      else{st=`${lid}/${esp}`;pc='pill-warn';}
+      return `<tr>
+        <td style="font-family:monospace;font-weight:700;">${b.minuta}</td>
+        <td style="font-size:11px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${boxes}</td>
+        <td style="text-align:center;">${esp}</td>
+        <td style="text-align:center;font-weight:700;">${lid}</td>
+        <td style="text-align:right;">${b.pesoReal.toFixed(1)}</td>
+        <td><span class="pill ${pc}">${st}</span></td>
+      </tr>`;
+    }).join('');
+
+    const tEsp=minutas.reduce((a,b)=>a+b.volumes,0);
+    const tLid=minutas.reduce((a,b)=>a+lidos(b.minuta),0);
+    const tPeso=minutas.reduce((a,b)=>a+b.pesoReal,0);
+    document.getElementById('resumo-tfoot').innerHTML=`<tr>
+      <td colspan="2" style="padding:9px 10px;">TOTAL</td>
+      <td style="text-align:center;">${tEsp}</td>
+      <td style="text-align:center;color:var(--gr);">${tLid}</td>
+      <td style="text-align:right;">${tPeso.toFixed(1)}</td>
+      <td></td>
+    </tr>`;
+  }
+
+  // ── EXPORTAR CSV (novo) ──────────────────────────────────────
+
+  function exportarCSV(){
+    if(!state.base.length){toast('Nenhuma base carregada','err');return;}
+    const now=new Date();
+    const dtStr=now.toLocaleDateString('pt-BR');
+
+    // Cabeçalho
+    let csv='Minuta,BOX(es),Volumes Esperados,Volumes Lidos,Faltando,Peso Real (kg),Status,Data/Hora Registro\n';
+
+    state.base.forEach(b=>{
+      const lid=lidos(b.minuta),esp=b.volumes,fat=faltam(b.minuta);
+      const boxes=[...new Set(minutaConf(b.minuta).map(c=>c.box))].join(' | ')||'—';
+      const st=lid>=esp&&esp>0?'COMPLETO':lid===0?'PENDENTE':'PARCIAL';
+      csv+=`"${b.minuta}","${boxes}",${esp},${lid},${fat},${b.pesoReal.toFixed(2)},"${st}","${dtStr}"\n`;
+    });
+
+    // Linha de totais
+    const tEsp=state.base.reduce((a,b)=>a+b.volumes,0);
+    const tLid=state.base.reduce((a,b)=>a+lidos(b.minuta),0);
+    const tPeso=state.base.reduce((a,b)=>a+b.pesoReal,0);
+    csv+=`"TOTAL","",${tEsp},${tLid},${tEsp-tLid},${tPeso.toFixed(2)},"",""\n`;
+
+    // Seção de detalhe por volume
+    csv+='\n\nDETALHE POR VOLUME\n';
+    csv+='Seq. Global,Minuta,BOX,Nº Volume,Total Esperado,Horario\n';
+    state.base.forEach(b=>{
+      const conf=minutaConf(b.minuta);
+      conf.forEach((c,i)=>{
+        const hr=new Date(c.timestamp).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+        const dt=new Date(c.timestamp).toLocaleDateString('pt-BR');
+        csv+=`${c.seq},"${b.minuta}","${c.box}",${i+1},${b.volumes},"${dt} ${hr}"\n`;
+      });
+    });
+
+    download(`portoex_conferencia_${dtFile()}.csv`, '﻿'+csv, 'text/csv;charset=utf-8;');
+    toast('CSV exportado com sucesso!','ok');
+  }
+
+  // ── EXPORTAR TXT (novo) ──────────────────────────────────────
+
+  function exportarTXT(){
+    if(!state.base.length){toast('Nenhuma base carregada','err');return;}
+    const now=new Date();
+    const nowStr=now.toLocaleString('pt-BR');
+    const tEsp=state.base.reduce((a,b)=>a+b.volumes,0);
+    const tLid=state.base.reduce((a,b)=>a+lidos(b.minuta),0);
+    const tPeso=state.base.reduce((a,b)=>a+b.pesoReal,0);
+    const completas=state.base.filter(b=>completo(b.minuta)).length;
+
+    let txt='';
+    txt+='================================================\n';
+    txt+='   PORTOEX — RELATÓRIO DE CONFERÊNCIA DE VOLUMES\n';
+    txt+='================================================\n';
+    txt+=`Data/Hora : ${nowStr}\n`;
+    txt+=`Minutas   : ${state.base.length}   Completas: ${completas}   Pendentes: ${state.base.length-completas}\n`;
+    txt+=`Vol. Esp. : ${tEsp}   Lidos: ${tLid}   Faltando: ${tEsp-tLid}\n`;
+    txt+=`Peso Total: ${tPeso.toFixed(2)} kg\n`;
+    txt+='------------------------------------------------\n\n';
+
+    txt+='RESUMO POR MINUTA\n';
+    txt+='------------------------------------------------\n';
+    txt+=padC('MINUTA',12)+padC('BOX',14)+padC('ESP',5)+padC('LID',5)+padC('FAL',5)+padC('PESO(kg)',10)+'STATUS\n';
+    txt+='─'.repeat(62)+'\n';
+
+    state.base.forEach(b=>{
+      const lid=lidos(b.minuta),esp=b.volumes,fat=faltam(b.minuta);
+      const boxes=[...new Set(minutaConf(b.minuta).map(c=>c.box))].join(',') || '—';
+      const st=lid>=esp&&esp>0?'COMPLETO':lid===0?'PENDENTE':`${lid}/${esp}`;
+      txt+=padC(b.minuta,12)+padC(boxes.substring(0,13),14)+padC(String(esp),5)+padC(String(lid),5)+padC(String(fat),5)+padC(b.pesoReal.toFixed(2),10)+st+'\n';
+    });
+
+    txt+='\n\nDETALHE DOS VOLUMES REGISTRADOS\n';
+    txt+='------------------------------------------------\n';
+
+    state.base.forEach(b=>{
+      const conf=minutaConf(b.minuta);
+      if(!conf.length) return;
+      const box=state.minutaBoxMap[b.minuta]||'—';
+      txt+=`\n  Minuta: ${b.minuta}  |  BOX: ${box}  |  ${conf.length}/${b.volumes} volumes\n`;
+      conf.forEach((c,i)=>{
+        const hr=new Date(c.timestamp).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+        txt+=`    Vol ${String(i+1).padStart(3,'0')}  BOX: ${c.box}  Seq: #${String(c.seq).padStart(4,'0')}  ${hr}\n`;
+      });
+    });
+
+    if(state.base.some(b=>lidos(b.minuta)===0)){
+      txt+='\n\nMINUTAS SEM LEITURA\n';
+      txt+='------------------------------------------------\n';
+      state.base.filter(b=>lidos(b.minuta)===0).forEach(b=>{
+        txt+=`  ${b.minuta}  —  ${b.volumes} volumes esperados  —  ${b.pesoReal.toFixed(2)} kg\n`;
+      });
+    }
+
+    txt+='\n================================================\n';
+    txt+='     PORTOEX Logística · Sistema de Conferência\n';
+    txt+='================================================\n';
+
+    download(`portoex_conferencia_${dtFile()}.txt`, txt, 'text/plain;charset=utf-8;');
+    toast('TXT exportado com sucesso!','ok');
+  }
+
+  function padC(str,len){ return String(str).substring(0,len).padEnd(len,' '); }
+
+  // ── EXPORTAR PDF / IMPRIMIR (melhorado) ─────────────────────
+
+  function imprimirResumo(){
+    const minutas=state.base;
+    const tEsp=minutas.reduce((a,b)=>a+b.volumes,0);
+    const tLid=minutas.reduce((a,b)=>a+lidos(b.minuta),0);
+    const tPeso=minutas.reduce((a,b)=>a+b.pesoReal,0);
+    const completas=minutas.filter(b=>completo(b.minuta)).length;
+    const now=new Date().toLocaleString('pt-BR');
+
+    const rows=minutas.map(b=>{
+      const lid=lidos(b.minuta),esp=b.volumes;
+      const boxes=[...new Set(minutaConf(b.minuta).map(c=>c.box))].join(', ')||'—';
+      const st=lid>=esp&&esp>0?'COMPLETO':lid===0?'PENDENTE':`${lid}/${esp}`;
+      const cor=lid>=esp&&esp>0?'#1a7a3e':lid===0?'#1A3A6E':'#a05c00';
+      return `<tr>
+        <td style="font-family:monospace;font-weight:700">${b.minuta}</td>
+        <td style="font-size:10pt;color:#555">${boxes}</td>
+        <td style="text-align:center">${esp}</td>
+        <td style="text-align:center;font-weight:700">${lid}</td>
+        <td style="text-align:right">${b.pesoReal.toFixed(2)}</td>
+        <td style="font-weight:700;color:${cor}">${st}</td>
+      </tr>`;
+    }).join('');
+
+    // detalhe de volumes
+    let detRows='';
+    minutas.forEach(b=>{
+      const conf=minutaConf(b.minuta);
+      if(!conf.length) return;
+      const box=state.minutaBoxMap[b.minuta]||'—';
+      conf.forEach((c,i)=>{
+        const hr=new Date(c.timestamp).toLocaleString('pt-BR');
+        detRows+=`<tr>
+          <td style="font-family:monospace;font-weight:700">${b.minuta}</td>
+          <td style="font-family:monospace">${c.box}</td>
+          <td style="text-align:center">${i+1}/${b.volumes}</td>
+          <td style="text-align:center;color:#555">#${String(c.seq).padStart(4,'0')}</td>
+          <td style="font-size:10pt;color:#555">${hr}</td>
+        </tr>`;
+      });
+    });
+
+    const w=window.open('','_blank');
+    w.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
+    <title>PORTOEX — Conferência de Volumes</title>
+    <style>
+      *{font-family:Arial,sans-serif;font-size:11pt;box-sizing:border-box;}
+      @page{size:A4;margin:15mm;}
+      body{color:#111;}
+      .hdr{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #E8611A;padding-bottom:8px;margin-bottom:14px;}
+      .brand{font-size:22pt;font-weight:900;letter-spacing:2px;color:#E8611A;}
+      .brand span{color:#1A3A6E;}
+      .sub{font-size:9pt;color:#888;margin-top:2px;}
+      .info{text-align:right;font-size:9pt;color:#555;}
+      .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:#1A3A6E;border-radius:8px;padding:12px;margin-bottom:14px;color:white;}
+      .stat{text-align:center;}
+      .stat-val{font-size:18pt;font-weight:700;}
+      .stat-val.or{color:#E8611A;}
+      .stat-val.gr{color:#4ade80;}
+      .stat-key{font-size:7pt;opacity:.6;text-transform:uppercase;margin-top:2px;}
+      h3{font-size:11pt;color:#1A3A6E;border-bottom:1.5px solid #E8611A;padding-bottom:4px;margin:14px 0 8px;}
+      table{width:100%;border-collapse:collapse;margin-bottom:16px;}
+      thead tr{background:#1A3A6E;color:white;}
+      th{padding:7px 9px;text-align:left;font-size:8pt;text-transform:uppercase;letter-spacing:.4px;}
+      tbody tr:nth-child(even){background:#f5f5f5;}
+      td{padding:6px 9px;border-bottom:1px solid #e0e0e0;font-size:10pt;}
+      tfoot td{background:#f0f2f5;font-weight:700;border-top:2px solid #1A3A6E;}
+      .footer{margin-top:16px;padding-top:8px;border-top:1px solid #ccc;font-size:8pt;color:#888;display:flex;justify-content:space-between;}
+      @media print{button{display:none;}}
+    </style></head><body>
+    <div class="hdr">
       <div>
-        ${d._checked
-          ? `<span class="badge badge-ok">#${String(d._seq).padStart(3,'0')}</span>`
-          : `<span class="badge" style="background:#F1F5F9;color:#64748B;">pendente</span>`}
+        <div class="brand">PORTO<span>EX</span></div>
+        <div class="sub">Conferência de Volumes</div>
       </div>
-    </div>`).join('');
-}
+      <div class="info"><strong>Relatório gerado em:</strong><br>${now}</div>
+    </div>
 
-function updateStats() {
-  const total = db.length, chk = db.filter(d=>d._checked).length;
-  document.getElementById('statTotal').textContent = total;
-  document.getElementById('statChk').textContent   = chk;
-  document.getElementById('statPend').textContent  = total - chk;
-  document.getElementById('progBar').style.width   = (total ? Math.round(chk/total*100) : 0) + '%';
-}
+    <div class="stats">
+      <div class="stat"><div class="stat-val">${minutas.length}</div><div class="stat-key">Minutas</div></div>
+      <div class="stat"><div class="stat-val or">${tEsp}</div><div class="stat-key">Volumes Esp.</div></div>
+      <div class="stat"><div class="stat-val gr">${tLid}</div><div class="stat-key">Volumes Lidos</div></div>
+      <div class="stat"><div class="stat-val">${tPeso.toFixed(1)}</div><div class="stat-key">kg Total</div></div>
+    </div>
 
-function updateLoteCard() {
-  if (!loteInfo.lote && !loteInfo.dest) return;
-  document.getElementById('loteCard').style.display = 'block';
-  const rows = [
-    loteInfo.lote  ? ['Lote', loteInfo.lote]   : null,
-    loteInfo.dest  ? ['Destinatário', loteInfo.dest] : null,
-    loteInfo.trans ? ['Transportadora', loteInfo.trans] : null,
-    loteInfo.totalP? ['Peso Total', loteInfo.totalP + ' kg'] : null,
-    loteInfo.totalV? ['Volumes', loteInfo.totalV] : null,
-  ].filter(Boolean);
-  document.getElementById('loteInfo').innerHTML = rows.map(([k,v]) =>
-    `<div class="lote-row"><span class="lk">${k}</span><span class="lv">${v}</span></div>`
-  ).join('');
-}
+    <h3>Resumo por Minuta</h3>
+    <table>
+      <thead><tr><th>Minuta</th><th>BOX(es)</th><th>Esp.</th><th>Lido</th><th>Peso (kg)</th><th>Status</th></tr></thead>
+      <tbody>${rows}</tbody>
+      <tfoot><tr>
+        <td colspan="2">TOTAL</td>
+        <td style="text-align:center">${tEsp}</td>
+        <td style="text-align:center;color:#1a7a3e">${tLid}</td>
+        <td style="text-align:right">${tPeso.toFixed(2)}</td>
+        <td>${completas}/${minutas.length} completas</td>
+      </tr></tfoot>
+    </table>
 
-function clearDB() {
-  db = []; loteInfo = {};
-  updateDBList(); updateStats();
-  document.getElementById('loteCard').style.display = 'none';
-  document.getElementById('dbStats').style.display  = 'none';
-  document.getElementById('progWrap').style.display = 'none';
-  showToast('🗑️ Base limpa.', 2000);
-}
+    ${detRows ? `<h3>Detalhe dos Volumes Registrados</h3>
+    <table>
+      <thead><tr><th>Minuta</th><th>BOX</th><th>Vol.</th><th>Seq.</th><th>Data/Hora</th></tr></thead>
+      <tbody>${detRows}</tbody>
+    </table>` : ''}
 
-// ─────────────────────────────────
-//  EXPORT CSV
-// ─────────────────────────────────
-function exportCSV() {
-  if (!history.length) { showToast('ℹ️ Sem itens para exportar.', 2000); return; }
-  const hdr  = 'Sequencia,Embalagem,Peso(kg),Tipo,NF,Volumes,Hora\n';
-  const rows = history.map(h =>
-    `${h.seq},"${h.item.pkg}","${h.item.weight||''}","${h.item.type||''}","${h.item.nota||h.item.invoice||''}",${h.qty},"${h.ts}"`
-  ).join('\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob(['﻿'+hdr+rows], {type:'text/csv;charset=utf-8;'}));
-  a.download = `conf_tecadi_skf_${new Date().toISOString().slice(0,10)}.csv`;
-  a.click();
-}
+    <div class="footer">
+      <span>PORTOEX Logística · Sistema de Conferência de Volumes</span>
+      <span>Conferente: _________________________ &nbsp;&nbsp; Assinatura: _________________________</span>
+    </div>
+    <script>window.onload=function(){window.print()}<\/script>
+    </body></html>`);
+    w.document.close();
+  }
 
-// ─────────────────────────────────
-//  TOAST
-// ─────────────────────────────────
-let toastTimer;
-function showToast(msg, dur=3000) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), dur);
-}
+  // ── HELPER DOWNLOAD ──────────────────────────────────────────
 
-// ─────────────────────────────────
-//  INIT
-// ─────────────────────────────────
-updateCounter();
-scanInput.focus();
+  function download(name, content, type){
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([content],{type}));
+    a.download=name; a.click();
+  }
+  function dtFile(){
+    return new Date().toISOString().slice(0,10);
+  }
+
+  // ── OUTROS ───────────────────────────────────────────────────
+
+  function fecharModalCompleto(){ document.getElementById('modal-completo').style.display='none'; }
+
+  function resetAll(){
+    if(state.base.length&&!confirm('Reiniciar apagará toda a conferência. Confirma?')) return;
+    state={base:[],cteMap:{},minutaMap:{},conferencias:{},minutaBoxMap:{},
+      currentMinuta:null,currentBox:null,globalSeq:0,
+      filterText:'',importTab:'xlsx',gsFormat:'csv',separator:'auto',sourceLabel:''};
+    ['inp-file-xlsx','inp-file-csv'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    document.getElementById('inp-gs-url').value='';
+    document.getElementById('base-preview').style.display='none';
+    document.getElementById('btn-hdr-resumo').style.display='none';
+    document.getElementById('global-bar').className='global-bar';
+    switchImportTab('xlsx');
+    showView('import');
+    toast('Sistema reiniciado','warn');
+  }
+
+  // ── CARGA RÁPIDA: BASE TECADI SKF (dados sincronizados) ──────
+  function carregarTecadiSKF(){
+    const rows=[
+      {'MINUTA':'281914','VOLUMES':'1','PESO REAL':'56','CTE CHAVE':'35260522725000000272570010000289341072574187'},
+      {'MINUTA':'281917','VOLUMES':'22','PESO REAL':'1148,94','CTE CHAVE':'35260522725000000272570010000289351028348379'},
+      {'MINUTA':'281926','VOLUMES':'12','PESO REAL':'407,66','CTE CHAVE':'35260522725000000272570010000289391028749178'},
+      {'MINUTA':'281941','VOLUMES':'23','PESO REAL':'834,08','CTE CHAVE':'35260522725000000272570010000289401098116191'},
+      {'MINUTA':'281967','VOLUMES':'6','PESO REAL':'325,29','CTE CHAVE':'35260522725000000272570010000289411004129496'},
+    ];
+    processarDados(rows,'gsheets');
+    toast('BASE TECADI SKF carregada!','ok');
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>showView('import'));
+
+  return {
+    switchImportTab, setGSFormat, setSep,
+    importarXLSX, onGSUrlInput, importarGSheets, importarCSV,
+    carregarTecadiSKF,
+    irParaConferencia,
+    filtrarMinutas, selecionarMinuta,
+    onCTEInput, onCTEKey, confirmCTE,
+    abrirMinuta, voltarCTE,
+    onBoxInput, onBoxKey, confirmBox, pedirBox, trocarBox,
+    registrarVolume, removerVolume,
+    verResumo, voltarConferencia,
+    exportarCSV, exportarTXT, imprimirResumo,
+    fecharModalCompleto, resetAll,
+  };
+})();
 </script>
 </body>
 </html>
