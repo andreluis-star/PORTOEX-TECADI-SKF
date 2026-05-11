@@ -312,6 +312,7 @@
         <button class="import-tab active" id="tab-xlsx" onclick="App.switchImportTab('xlsx')"><i class="ti ti-file-spreadsheet"></i> Excel</button>
         <button class="import-tab" id="tab-gsheets" onclick="App.switchImportTab('gsheets')"><i class="ti ti-brand-google" style="color:#0f9d58"></i> Sheets</button>
         <button class="import-tab" id="tab-csv" onclick="App.switchImportTab('csv')"><i class="ti ti-file-text"></i> CSV/TXT</button>
+        <button class="import-tab" id="tab-colar" onclick="App.switchImportTab('colar')"><i class="ti ti-clipboard-text"></i> Colar</button>
       </div>
 
       <!-- XLSX -->
@@ -374,6 +375,19 @@
             <button class="fmt-pill" id="sep-tab" onclick="App.setSep('tab')"><i class="ti ti-arrow-bar-right"></i>Tab</button>
           </div>
         </div>
+      </div>
+
+      <!-- COLAR DADOS -->
+      <div id="import-colar" style="display:none;">
+        <div class="card blue">
+          <div class="card-title blue"><span class="badge badge-bl">Colar</span> Cole os dados diretamente</div>
+          <p style="font-size:13px;color:var(--t2);line-height:1.55;">Copie do Excel ou Google Sheets e cole abaixo. O cabeçalho é detectado automaticamente.</p>
+        </div>
+        <div class="field">
+          <label class="lbl"><i class="ti ti-clipboard"></i> Dados copiados</label>
+          <textarea id="inp-colar" class="inp" rows="8" style="resize:vertical;font-size:12px;font-family:monospace;padding:10px 12px;line-height:1.5;" placeholder="Cole aqui os dados copiados do Excel/Sheets...&#10;&#10;MINUTA&#9;VOLUMES&#9;PESO REAL&#9;CTE CHAVE&#10;282426&#9;14&#9;1191,39&#9;35260522..."></textarea>
+        </div>
+        <button class="btn btn-or" onclick="App.importarColado()"><i class="ti ti-check"></i> Importar dados colados</button>
       </div>
 
       <!-- PREVIEW -->
@@ -565,11 +579,27 @@ const App = (() => {
 
   function switchImportTab(tab){
     state.importTab=tab;
-    ['xlsx','gsheets','csv'].forEach(t=>{
+    ['xlsx','gsheets','csv','colar'].forEach(t=>{
       document.getElementById('tab-'+t).className='import-tab'+(t===tab?' active':'');
       document.getElementById('import-'+t).style.display=t===tab?'block':'none';
     });
     document.getElementById('base-preview').style.display='none';
+    if(tab==='colar') setTimeout(()=>document.getElementById('inp-colar').focus(),80);
+  }
+
+  function importarColado(){
+    const raw=document.getElementById('inp-colar').value.trim();
+    if(!raw){toast('Cole os dados primeiro','err');return;}
+    // Detecta separador: tab (Excel/Sheets) ou vírgula/ponto-e-vírgula
+    const firstLine=raw.split('\n')[0];
+    let sep='\t';
+    if(!firstLine.includes('\t')){
+      sep=firstLine.split(';').length>firstLine.split(',').length?';':',';
+    }
+    const rows=parseCSVText(raw,sep);
+    if(!rows.length){toast('Não foi possível ler os dados. Verifique o formato.','err');return;}
+    processarDados(rows,'colar');
+    document.getElementById('inp-colar').value='';
   }
 
   // ── PROCESSAR DADOS ─────────────────────────────────────────
@@ -1195,7 +1225,7 @@ const App = (() => {
 
   return {
     switchImportTab, setGSFormat, setSep,
-    importarXLSX, onGSUrlInput, importarGSheets, importarCSV,
+    importarXLSX, onGSUrlInput, importarGSheets, importarCSV, importarColado,
     carregarTecadiSKF, irParaConferencia,
     onScanInput, onScanKey,
     abrirSeletorMinuta, fecharSeletorMinuta,
